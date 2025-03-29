@@ -1,0 +1,103 @@
+[gd_resource type="Theme" load_steps=27 format=3 uid="uid://bmdtydhlxweam"]
+
+[ext_resource type="FontFile" uid="uid://cqv80u3qb01k0" path="res://assets/fonts/PixelifySans-VariableFont_wght.ttf" id="1_03kgh"]
+[ext_resource type="Texture2D" uid="uid://chs6dgsk570kb" path="res://assets/sprites/RPG UI.png" id="2_7y2pp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_syd28"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3s2ls"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_citb7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ugq1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0jkro"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j3u3f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nrmk7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8nhwp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pe7ev"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_888gp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dcj54"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wituo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xgdxi"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iu558"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fyuqs"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w6nkr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_obxxr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mxsw0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gjreg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qgdsb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_joly2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_amntv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_krn2h"]
+atlas = ExtResource("2_7y2pp")
+region = Rect2(12, 12, 72, 72)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8kmg7"]
+texture = SubResource("AtlasTexture_krn2h")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+
+[resource]
+ActionButton/base_type = &"Button"
+ActionButton/colors/font_color = Color(0.133333, 0.133333, 0.133333, 1)
+ActionButton/colors/font_disabled_color = Color(0.6, 0.6, 0.6, 1)
+ActionButton/colors/font_focus_color = Color(0.266667, 0.266667, 0.266667, 1)
+ActionButton/colors/font_hover_color = Color(0.266667, 0.266667, 0.266667, 1)
+ActionButton/colors/font_pressed_color = Color(0, 0, 0, 1)
+ActionButton/font_sizes/font_size = 24
+ActionButton/styles/disabled = SubResource("StyleBoxEmpty_syd28")
+ActionButton/styles/disabled_mirrored = SubResource("StyleBoxEmpty_3s2ls")
+ActionButton/styles/focus = SubResource("StyleBoxEmpty_citb7")
+ActionButton/styles/hover = SubResource("StyleBoxEmpty_7ugq1")
+ActionButton/styles/hover_mirrored = SubResource("StyleBoxEmpty_0jkro")
+ActionButton/styles/hover_pressed = SubResource("StyleBoxEmpty_j3u3f")
+ActionButton/styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_nrmk7")
+ActionButton/styles/normal = SubResource("StyleBoxEmpty_8nhwp")
+ActionButton/styles/normal_mirrored = SubResource("StyleBoxEmpty_pe7ev")
+ActionButton/styles/pressed = SubResource("StyleBoxEmpty_888gp")
+ActionButton/styles/pressed_mirrored = SubResource("StyleBoxEmpty_dcj54")
+Button/fonts/font = ExtResource("1_03kgh")
+Label/colors/font_color = Color(0.133196, 0.133196, 0.133196, 1)
+Label/font_sizes/font_size = 16
+Label/fonts/font = ExtResource("1_03kgh")
+LabelWithIcon/base_type = &"Button"
+LabelWithIcon/colors/font_color = Color(0, 0, 0, 1)
+LabelWithIcon/colors/font_disabled_color = Color(0, 0, 0, 1)
+LabelWithIcon/colors/font_focus_color = Color(0, 0, 0, 1)
+LabelWithIcon/colors/font_hover_color = Color(0, 0, 0, 1)
+LabelWithIcon/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+LabelWithIcon/colors/font_pressed_color = Color(0, 0, 0, 1)
+LabelWithIcon/fonts/font = ExtResource("1_03kgh")
+LabelWithIcon/styles/disabled = SubResource("StyleBoxEmpty_wituo")
+LabelWithIcon/styles/disabled_mirrored = SubResource("StyleBoxEmpty_xgdxi")
+LabelWithIcon/styles/focus = SubResource("StyleBoxEmpty_iu558")
+LabelWithIcon/styles/hover = SubResource("StyleBoxEmpty_fyuqs")
+LabelWithIcon/styles/hover_mirrored = SubResource("StyleBoxEmpty_w6nkr")
+LabelWithIcon/styles/hover_pressed = SubResource("StyleBoxEmpty_obxxr")
+LabelWithIcon/styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_mxsw0")
+LabelWithIcon/styles/normal = SubResource("StyleBoxEmpty_gjreg")
+LabelWithIcon/styles/normal_mirrored = SubResource("StyleBoxEmpty_qgdsb")
+LabelWithIcon/styles/pressed = SubResource("StyleBoxEmpty_joly2")
+LabelWithIcon/styles/pressed_mirrored = SubResource("StyleBoxEmpty_amntv")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_8kmg7")

@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://ba8cqauwlj5bi"]
+
+[ext_resource type="Texture2D" uid="uid://bydhdfaonvec7" path="res://assets/sprites/Tactical RPG Overworld Pack - Tilesheet.png" id="1_300us"]
+[ext_resource type="Script" path="res://src/scenes/Cursor/Cursor.gd" id="1_klljc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vbip0"]
+atlas = ExtResource("1_300us")
+region = Rect2(896, 1984, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_21uld"]
+atlas = ExtResource("1_300us")
+region = Rect2(928, 1984, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_coudu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vbip0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_21uld")
+}],
+"loop": true,
+"name": &"default",
+"speed": 4.0
+}]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_klljc")
+
+[node name="Cursor" type="Sprite2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Cursor"]
+position = Vector2(0, -16)
+sprite_frames = SubResource("SpriteFrames_coudu")
+autoplay = "default"
+frame_progress = 0.160476
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true

@@ -1,0 +1,75 @@
+[
+  {
+    "chapterId": "ch1",
+    "chapterTitle": "First Contact",
+    "dialogSequence": [
+      {
+        "speaker": "Captain Elysia",
+        "portrait": "elysia_neutral",
+        "text": "We've detected an unknown vessel approaching our station.",
+        "position": "left",
+        "background": "command_bridge"
+      },
+      {
+        "speaker": "Lieutenant Vex",
+        "portrait": "vex_concerned",
+        "text": "Scans show unusual energy signatures. Should we raise shields?",
+        "position": "right",
+        "background": "command_bridge"
+      },
+      {
+        "speaker": "Captain Elysia",
+        "portrait": "elysia_serious",
+        "text": "Yes. And hail them on all frequencies.",
+        "position": "left",
+        "background": "command_bridge"
+      }
+    ],
+    "decisions": [
+      {
+        "prompt": "How will you approach the unknown vessel?",
+        "options": [
+          {
+            "text": "Prepare weapons and demand identification",
+            "nextSequenceId": "aggressive_approach"
+          },
+          {
+            "text": "Send peaceful greeting and offer assistance",
+            "nextSequenceId": "diplomatic_approach"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "chapterId": "ch2",
+    "chapterTitle": "The Alliance",
+    "dialogSequence": [
+      {
+        "speaker": "Ambassador Zorn",
+        "portrait": "zorn_formal",
+        "text": "We thank you for your assistance against the Void Hunters.",
+        "position": "right",
+        "background": "diplomatic_chamber"
+      },
+      {
+        "speaker": "Captain Elysia",
+        "portrait": "elysia_diplomatic",
+        "text": "Our peoples have a common enemy. An alliance would benefit us both.",
+        "position": "left",
+        "background": "diplomatic_chamber"
+      },
+      {
+        "speaker": "Science Officer Talia",
+        "portrait": "talia_excited",
+        "text": "Their technology is incredible! The possibilities for collaboration are endless.",
+        "position": "right",
+        "background": "diplomatic_chamber"
+      }
+    ],
+    "battleDialog": {
+      "start": "Ambassador Zorn: The treaty is signed. Our forces are yours to command, Captain.",
+      "victory": "Captain Elysia: With our combined strength, we will prevail!"
+    }
+  }
+]

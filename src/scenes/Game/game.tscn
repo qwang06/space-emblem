@@ -1,0 +1,220 @@
+[gd_scene load_steps=17 format=4 uid="uid://hl46q5x4i8ph"]
+
+[ext_resource type="Script" path="res://src/scripts/Camera/camera_2d.gd" id="1_kpg1m"]
+[ext_resource type="Script" path="res://src/scripts/Grid/grid_manager.gd" id="2_yrsf6"]
+[ext_resource type="TileSet" uid="uid://r3wtlsw1o4l3" path="res://assets/tilesets/rpg_ow.tres" id="3_11lqc"]
+[ext_resource type="Theme" uid="uid://bmdtydhlxweam" path="res://fe_theme.tres" id="4_avljk"]
+[ext_resource type="Texture2D" uid="uid://chs6dgsk570kb" path="res://assets/sprites/RPG UI.png" id="5_bmvgg"]
+[ext_resource type="Script" path="res://src/scripts/Dialog/dialog.gd" id="6_md2og"]
+[ext_resource type="Texture2D" uid="uid://bp2hh0i1b7slj" path="res://assets/sprites/Acolyte_02_portrait.png" id="7_bgtua"]
+[ext_resource type="Script" path="res://src/scripts/GameBoard.gd" id="8_1hfn7"]
+[ext_resource type="PackedScene" uid="uid://bpg7gtxrjh0gm" path="res://src/scenes/Unit/unit.tscn" id="9_imwmi"]
+[ext_resource type="PackedScene" uid="uid://ddl2rnsk8q762" path="res://src/scenes/UnitPath/unit_path.tscn" id="10_oqbv5"]
+[ext_resource type="PackedScene" uid="uid://ba8cqauwlj5bi" path="res://src/scenes/Cursor/cursor.tscn" id="11_8xlrq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1y6uf"]
+atlas = ExtResource("5_bmvgg")
+region = Rect2(326, 1546, 20, 18)
+margin = Rect2(0, 0, 5, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tsk2v"]
+atlas = ExtResource("5_bmvgg")
+region = Rect2(262, 1544, 20, 20)
+margin = Rect2(0, 0, 5, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nu1f8"]
+atlas = ExtResource("5_bmvgg")
+region = Rect2(70, 1482, 20, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_glull"]
+atlas = ExtResource("5_bmvgg")
+region = Rect2(360, 1512, 16, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vbdju"]
+atlas = ExtResource("5_bmvgg")
+region = Rect2(76, 268, 10, 10)
+margin = Rect2(0, 0, 5, 5)
+
+[node name="Game" type="Node"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+unique_name_in_owner = true
+anchor_mode = 0
+limit_left = 0
+limit_top = 0
+limit_smoothed = true
+editor_draw_limits = true
+editor_draw_drag_margin = true
+script = ExtResource("1_kpg1m")
+
+[node name="GridManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_yrsf6")
+
+[node name="Background" type="TileMapLayer" parent="."]
+unique_name_in_owner = true
+tile_map_data = PackedByteArray("AAAAAAAAAwAAAAAAAAAAAAEAAwAAAAAAAAAAAAIAAwAAAAAAAAAAAAMAAwAAAAAAAAAAAAQAAwAAAAAAAAAAAAUAAwAAAAAAAAAAAAYAAwAAAAAAAAAAAAcAAwAAAAAAAAAAAAgAAwAAAAAAAAAAAAkAAwAAAAAAAAAAAAoAAwAAAAAAAAAAAAsAAwAAAAAAAAAAAAwAAwAAAAAAAAAAAA0AAwAAAAAAAAAAAA4AAwAAAAAAAAABAAAAAwAAAAAAAAABAAEAAwAAAAAAAAABAAIAAwAAAAAAAAABAAMAAwAAAAAAAAABAAQAAwAAAAAAAAABAAUAAwAAAAAAAAABAAYAAwAAAAAAAAABAAcAAwAAAAAAAAABAAgAAwAAAAAAAAABAAkAAwAAAAAAAAABAAoAAwAAAAAAAAABAAsAAwAAAAAAAAABAAwAAwAAAAAAAAABAA0AAwAAAAAAAAABAA4AAwAAAAAAAAACAAAAAwAAAAAAAAACAAEAAwAAAAAAAAACAAIAAwAAAAAAAAACAAMAAwAAAAAAAAACAAQAAwAAAAAAAAACAAUAAwAAAAAAAAACAAYAAwAAAAAAAAACAAcAAwAAAAAAAAACAAgAAwAAAAAAAAACAAkAAwAAAAAAAAACAAoAAwAAAAAAAAACAAsAAwAAAAAAAAACAAwAAwAAAAAAAAACAA0AAwAAAAAAAAACAA4AAwAAAAAAAAADAAAAAwAAAAAAAAADAAEAAwAAAAAAAAADAAIAAwAAAAAAAAADAAMAAwAAAAAAAAADAAQAAwAAAAAAAAADAAUAAwAAAAAAAAADAAYAAwAAAAAAAAADAAcAAwAAAAAAAAADAAgAAwAAAAAAAAADAAkAAwAAAAAAAAADAAoAAwAAAAAAAAADAAsAAwAAAAAAAAADAAwAAwAAAAAAAAADAA0AAwAAAAAAAAADAA4AAwAAAAAAAAAEAAAAAwAAAAAAAAAEAAEAAwAAAAAAAAAEAAIAAwAAAAAAAAAEAAMAAwAAAAAAAAAEAAQAAwAAAAAAAAAEAAUAAwAAAAAAAAAEAAYAAwAAAAAAAAAEAAcAAwAAAAAAAAAEAAgAAwAAAAAAAAAEAAkAAwAAAAAAAAAEAAoAAwAAAAAAAAAEAAsAAwAAAAAAAAAEAAwAAwAAAAAAAAAEAA0AAwAAAAAAAAAEAA4AAwAAAAAAAAAFAAAAAwAAAAAAAAAFAAEAAwAAAAAAAAAFAAIAAwAAAAAAAAAFAAMAAwAAAAAAAAAFAAQAAwAAAAAAAAAFAAUAAwAAAAAAAAAFAAYAAwAAAAAAAAAFAAcAAwAAAAAAAAAFAAgAAwAAAAAAAAAFAAkAAwAAAAAAAAAFAAoAAwAAAAAAAAAFAAsAAwAAAAAAAAAFAAwAAwAAAAAAAAAFAA0AAwAAAAAAAAAFAA4AAwAAAAAAAAAGAAAAAwAAAAAAAAAGAAEAAwAAAAAAAAAGAAIAAwAAAAAAAAAGAAMAAwAAAAAAAAAGAAQAAwAAAAAAAAAGAAUAAwAAAAAAAAAGAAYAAwAAAAAAAAAGAAcAAwAAAAAAAAAGAAgAAwAAAAAAAAAGAAkAAwAAAAAAAAAGAAoAAwAAAAAAAAAGAAsAAwAAAAAAAAAGAAwAAwAAAAAAAAAGAA0AAwAAAAAAAAAGAA4AAwAAAAAAAAAHAAAAAwAAAAAAAAAHAAEAAwAAAAAAAAAHAAIAAwAAAAAAAAAHAAMAAwAAAAAAAAAHAAQAAwAAAAAAAAAHAAUAAwAAAAAAAAAHAAYAAwAAAAAAAAAHAAcAAwAAAAAAAAAHAAgAAwAAAAAAAAAHAAkAAwAAAAAAAAAHAAoAAwAAAAAAAAAHAAsAAwAAAAAAAAAHAAwAAwAAAAAAAAAHAA0AAwAAAAAAAAAHAA4AAwAAAAAAAAAIAAAAAwAAAAAAAAAIAAEAAwAAAAAAAAAIAAIAAwAAAAAAAAAIAAMAAwAAAAAAAAAIAAQAAwAAAAAAAAAIAAUAAwAAAAAAAAAIAAYAAwAAAAAAAAAIAAcAAwAAAAAAAAAIAAgAAwAAAAAAAAAIAAkAAwAAAAAAAAAIAAoAAwAAAAAAAAAIAAsAAwAAAAAAAAAIAAwAAwAAAAAAAAAIAA0AAwAAAAAAAAAIAA4AAwAAAAAAAAAJAAAAAwAAAAAAAAAJAAEAAwAAAAAAAAAJAAIAAwAAAAAAAAAJAAMAAwAAAAAAAAAJAAQAAwAAAAAAAAAJAAUAAwAAAAAAAAAJAAYAAwAAAAAAAAAJAAcAAwAAAAAAAAAJAAgAAwAAAAAAAAAJAAkAAwAAAAAAAAAJAAoAAwAAAAAAAAAJAAsAAwAAAAAAAAAJAAwAAwAAAAAAAAAJAA0AAwAAAAAAAAAJAA4AAwAAAAAAAAAKAAAAAwAAAAAAAAAKAAEAAwAAAAAAAAAKAAIAAwAAAAAAAAAKAAMAAwAAAAAAAAAKAAQAAwAAAAAAAAAKAAUAAwAAAAAAAAAKAAYAAwAAAAAAAAAKAAcAAwAAAAAAAAAKAAgAAwAAAAAAAAAKAAkAAwAAAAAAAAAKAAoAAwAAAAAAAAAKAAsAAwAAAAAAAAAKAAwAAwAAAAAAAAAKAA0AAwAAAAAAAAAKAA4AAwAAAAAAAAALAAAAAwAAAAAAAAALAAEAAwAAAAAAAAALAAIAAwAAAAAAAAALAAMAAwAAAAAAAAALAAQAAwAAAAAAAAALAAUAAwAAAAAAAAALAAYAAwAAAAAAAAALAAcAAwAAAAAAAAALAAgAAwAAAAAAAAALAAkAAwAAAAAAAAALAAoAAwAAAAAAAAALAAsAAwAAAAAAAAALAAwAAwAAAAAAAAALAA0AAwAAAAAAAAALAA4AAwAAAAAAAAAMAAAAAwAAAAAAAAAMAAEAAwAAAAAAAAAMAAIAAwAAAAAAAAAMAAMAAwAAAAAAAAAMAAQAAwAAAAAAAAAMAAUAAwAAAAAAAAAMAAYAAwAAAAAAAAAMAAcAAwAAAAAAAAAMAAgAAwAAAAAAAAAMAAkAAwAAAAAAAAAMAAoAAwAAAAAAAAAMAAsAAwAAAAAAAAAMAAwAAwAAAAAAAAAMAA0AAwAAAAAAAAAMAA4AAwAAAAAAAAANAAAAAwAAAAAAAAANAAEAAwAAAAAAAAANAAIAAwAAAAAAAAANAAMAAwAAAAAAAAANAAQAAwAAAAAAAAANAAUAAwAAAAAAAAANAAYAAwAAAAAAAAANAAcAAwAAAAAAAAANAAgAAwAAAAAAAAANAAkAAwAAAAAAAAANAAoAAwAAAAAAAAANAAsAAwAAAAAAAAANAAwAAwAAAAAAAAANAA0AAwAAAAAAAAANAA4AAwAAAAAAAAAOAAAAAwAAAAAAAAAOAAEAAwAAAAAAAAAOAAIAAwAAAAAAAAAOAAMAAwAAAAAAAAAOAAQAAwAAAAAAAAAOAAUAAwAAAAAAAAAOAAYAAwAAAAAAAAAOAAcAAwAAAAAAAAAOAAgAAwAAAAAAAAAOAAkAAwAAAAAAAAAOAAoAAwAAAAAAAAAOAAsAAwAAAAAAAAAOAAwAAwAAAAAAAAAOAA0AAwAAAAAAAAAOAA4AAwAAAAAAAAAPAAAAAwAAAAAAAAAPAAEAAwAAAAAAAAAPAAIAAwAAAAAAAAAPAAMAAwAAAAAAAAAPAAQAAwAAAAAAAAAPAAUAAwAAAAAAAAAPAAYAAwAAAAAAAAAPAAcAAwAAAAAAAAAPAAgAAwAAAAAAAAAPAAkAAwAAAAAAAAAPAAoAAwAAAAAAAAAPAAsAAwAAAAAAAAAPAAwAAwAAAAAAAAAPAA0AAwAAAAAAAAAPAA4AAwAAAAAAAAAQAAAAAwAAAAAAAAAQAAEAAwAAAAAAAAAQAAIAAwAAAAAAAAAQAAMAAwAAAAAAAAAQAAQAAwAAAAAAAAAQAAUAAwAAAAAAAAAQAAYAAwAAAAAAAAAQAAcAAwAAAAAAAAAQAAgAAwAAAAAAAAAQAAkAAwAAAAAAAAAQAAoAAwAAAAAAAAAQAAsAAwAAAAAAAAAQAAwAAwAAAAAAAAAQAA0AAwAAAAAAAAAQAA4AAwAAAAAAAAARAAAAAwAAAAAAAAARAAEAAwAAAAAAAAARAAIAAwAAAAAAAAARAAMAAwAAAAAAAAARAAQAAwAAAAAAAAARAAUAAwAAAAAAAAARAAYAAwAAAAAAAAARAAcAAwAAAAAAAAARAAgAAwAAAAAAAAARAAkAAwAAAAAAAAARAAoAAwAAAAAAAAARAAsAAwAAAAAAAAARAAwAAwAAAAAAAAARAA0AAwAAAAAAAAARAA4AAwAAAAAAAAASAAAAAwAAAAAAAAASAAEAAwAAAAAAAAASAAIAAwAAAAAAAAASAAMAAwAAAAAAAAASAAQAAwAAAAAAAAASAAUAAwAAAAAAAAASAAYAAwAAAAAAAAASAAcAAwAAAAAAAAASAAgAAwAAAAAAAAASAAkAAwAAAAAAAAASAAoAAwAAAAAAAAASAAsAAwAAAAAAAAASAAwAAwAAAAAAAAASAA0AAwAAAAAAAAASAA4AAwAAAAAAAAATAAAAAwAAAAAAAAATAAEAAwAAAAAAAAATAAIAAwAAAAAAAAATAAMAAwAAAAAAAAATAAQAAwAAAAAAAAATAAUAAwAAAAAAAAATAAYAAwAAAAAAAAATAAcAAwAAAAAAAAATAAgAAwAAAAAAAAATAAkAAwAAAAAAAAATAAoAAwAAAAAAAAATAAsAAwAAAAAAAAATAAwAAwAAAAAAAAATAA0AAwAAAAAAAAATAA4AAwAAAAAAAAA=")
+tile_set = ExtResource("3_11lqc")
+
+[node name="Terrain" type="TileMapLayer" parent="."]
+unique_name_in_owner = true
+tile_map_data = PackedByteArray("AAABAAEAAwAAAAEAAAAFAAQAAwAAAAEAAAAFAAAAAwAEAAAAAAAGAAEAAwAFAAEAAAAHAAEAAwAGAAEAAAAEAAEAAwADAAEAAAAIAAEAAwAHAAEAAAAQAAAAAwAFAAMAAAAQAAEAAwAFAAQAAAAQAAIAAwAFAAUAAAARAAAAAwAGAAMAAAARAAEAAwAGAAQAAAARAAIAAwAGAAUAAAASAAAAAwAHAAMAAAASAAEAAwAHAAQAAAASAAIAAwAHAAUAAAAFAAEAAwAEAAEAAAAGAAAAAwAFAAAAAAAGAAIAAwAFAAIAAAAHAAAAAwAGAAAAAAAIAAAAAwAHAAAAAAAIAAIAAwAHAAIAAAAAAAQAAwAIAAEAAAAAAAUAAwAIAAIAAAACAAQAAwAKAAEAAAACAAUAAwAKAAIAAAADAAIAAwAJAAEAAAADAAMAAwAJAAIAAAA=")
+tile_set = ExtResource("3_11lqc")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ActionsMenu" type="PanelContainer" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -174.0
+offset_bottom = 100.0
+grow_horizontal = 0
+theme = ExtResource("4_avljk")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ActionsMenu"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/ActionsMenu/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+
+[node name="Move" type="Button" parent="CanvasLayer/ActionsMenu/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_type_variation = &"ActionButton"
+text = "MOVE"
+icon = SubResource("AtlasTexture_1y6uf")
+alignment = 0
+
+[node name="Attack" type="Button" parent="CanvasLayer/ActionsMenu/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_type_variation = &"ActionButton"
+text = "ATTACK"
+icon = SubResource("AtlasTexture_tsk2v")
+alignment = 0
+
+[node name="TileInfo" type="PanelContainer" parent="CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -164.0
+offset_top = -60.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("4_avljk")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/TileInfo"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/TileInfo/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 4
+columns = 2
+
+[node name="Health" type="Button" parent="CanvasLayer/TileInfo/MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"LabelWithIcon"
+text = "9999"
+icon = SubResource("AtlasTexture_nu1f8")
+
+[node name="Mana" type="Button" parent="CanvasLayer/TileInfo/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_type_variation = &"LabelWithIcon"
+text = "9999"
+icon = SubResource("AtlasTexture_glull")
+
+[node name="Terrain" type="Label" parent="CanvasLayer/TileInfo/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Test Label"
+
+[node name="Dialog" type="MarginContainer" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -304.0
+offset_top = -75.0
+offset_right = 304.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("6_md2og")
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Dialog"]
+layout_mode = 2
+theme = ExtResource("4_avljk")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Dialog/PanelContainer"]
+layout_mode = 2
+
+[node name="GridContainer2" type="GridContainer" parent="CanvasLayer/Dialog/PanelContainer/MarginContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="Portrait" type="TextureRect" parent="CanvasLayer/Dialog/PanelContainer/MarginContainer/GridContainer2"]
+layout_mode = 2
+texture = ExtResource("7_bgtua")
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Dialog/PanelContainer/MarginContainer/GridContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="CanvasLayer/Dialog/PanelContainer/MarginContainer/GridContainer2/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Character"
+
+[node name="Content" type="Label" parent="CanvasLayer/Dialog/PanelContainer/MarginContainer/GridContainer2/GridContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(400, 75)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Hello World! Hello World! Hello World! Hello World! Hello World! Hello World! Hello World! Hello World! Hello World! Hello World! "
+autowrap_mode = 2
+
+[node name="ContinueIcon" type="TextureRect" parent="CanvasLayer/Dialog/PanelContainer/MarginContainer/GridContainer2/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+texture = SubResource("AtlasTexture_vbdju")
+
+[node name="GameBoard" type="Node2D" parent="."]
+script = ExtResource("8_1hfn7")
+
+[node name="Unit2" parent="GameBoard" instance=ExtResource("9_imwmi")]
+position = Vector2(48, 60)
+
+[node name="UnitPath" parent="GameBoard" instance=ExtResource("10_oqbv5")]
+
+[node name="Unit" parent="GameBoard" instance=ExtResource("9_imwmi")]
+position = Vector2(16, 31)
+move_speed = 100.0
+
+[node name="Cursor" parent="GameBoard" instance=ExtResource("11_8xlrq")]
+unique_name_in_owner = true
+position = Vector2(16, 32)
+
+[connection signal="pressed" from="CanvasLayer/ActionsMenu/MarginContainer/GridContainer/Move" to="GameBoard" method="_on_move_pressed"]
+[connection signal="cancel_pressed" from="GameBoard/Cursor" to="GameBoard" method="_on_cursor_cancel_pressed"]
+[connection signal="confirm_pressed" from="GameBoard/Cursor" to="CanvasLayer/Dialog" method="_on_cursor_confirm_pressed"]
+[connection signal="confirm_pressed" from="GameBoard/Cursor" to="GameBoard" method="_on_cursor_confirm_pressed"]
+[connection signal="moved" from="GameBoard/Cursor" to="GameBoard" method="_on_cursor_moved"]
