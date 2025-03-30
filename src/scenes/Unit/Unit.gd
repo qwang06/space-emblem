@@ -53,16 +53,6 @@ func set_tile(value: Vector2) -> void:
 	movement.tile = value
 
 
-# Return string representation of health
-func get_health_string() -> String:
-	return str(stats.current_health) + " / " + str(stats.max_health)
-
-
-# Return string representation of mana
-func get_mana_string() -> String:
-	return str(stats.current_mana) + " / " + str(stats.max_mana)
-
-
 func set_selected(value: bool) -> void:
 	selected = value
 	if selected:
