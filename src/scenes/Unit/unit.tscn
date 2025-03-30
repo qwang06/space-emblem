@@ -1,10 +1,15 @@
-[gd_scene load_steps=39 format=3 uid="uid://bpg7gtxrjh0gm"]
+[gd_scene load_steps=44 format=3 uid="uid://bpg7gtxrjh0gm"]
 
-[ext_resource type="Script" path="res://src/scenes/Unit/Unit.gd" id="1_gghe1"]
+[ext_resource type="Script" path="res://src/scenes/Unit/unit.gd" id="1_gghe1"]
 [ext_resource type="Texture2D" uid="uid://bd1u1e7fxkh1" path="res://assets/sprites/Acolyte_01_Idle.png" id="1_gsyd1"]
 [ext_resource type="Texture2D" uid="uid://bju7hu8nja4ik" path="res://assets/sprites/Acolyte_01_Move.png" id="3_g2lad"]
 [ext_resource type="Texture2D" uid="uid://bfnsenewacdti" path="res://assets/sprites/Acolyte_01_portrait.png" id="4_ojjww"]
-[ext_resource type="Script" path="res://src/scripts/Combat/Health.gd" id="5_vqnx0"]
+[ext_resource type="Script" path="res://src/scripts/UnitComponents/action.gd" id="5_bbbqc"]
+[ext_resource type="Script" path="res://src/scripts/UnitComponents/faction.gd" id="6_vvyfd"]
+[ext_resource type="Script" path="res://src/scripts/UnitComponents/movement.gd" id="7_ba1sk"]
+[ext_resource type="Script" path="res://src/scripts/UnitComponents/turn.gd" id="8_b7bkc"]
+[ext_resource type="Script" path="res://src/scripts/UnitComponents/stats.gd" id="8_vvvpx"]
+[ext_resource type="Script" path="res://src/scripts/UnitComponents/visual.gd" id="10_2vrfr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8vy2a"]
 atlas = ExtResource("1_gsyd1")
@@ -275,7 +280,6 @@ animations = [{
 
 [node name="Unit" type="Path2D"]
 script = ExtResource("1_gghe1")
-move_range = 6
 
 [node name="Portrait" type="Sprite2D" parent="."]
 visible = false
@@ -290,9 +294,22 @@ loop = false
 position = Vector2(0, -14)
 sprite_frames = SubResource("SpriteFrames_c7rgw")
 animation = &"idle_front"
-frame_progress = 0.49313
+frame_progress = 0.0852984
 
-[node name="Health" type="Node" parent="."]
-script = ExtResource("5_vqnx0")
+[node name="ActionComponent" type="Node" parent="."]
+script = ExtResource("5_bbbqc")
 
-[node name="Mana" type="Node" parent="."]
+[node name="FactionComponent" type="Node" parent="."]
+script = ExtResource("6_vvyfd")
+
+[node name="MovementComponent" type="Node" parent="."]
+script = ExtResource("7_ba1sk")
+
+[node name="StatsComponent" type="Node" parent="."]
+script = ExtResource("8_vvvpx")
+
+[node name="TurnComponent" type="Node" parent="."]
+script = ExtResource("8_b7bkc")
+
+[node name="VisualComponent" type="Node" parent="."]
+script = ExtResource("10_2vrfr")

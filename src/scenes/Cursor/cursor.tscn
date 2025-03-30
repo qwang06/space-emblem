@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://ba8cqauwlj5bi"]
 
 [ext_resource type="Texture2D" uid="uid://bydhdfaonvec7" path="res://assets/sprites/Tactical RPG Overworld Pack - Tilesheet.png" id="1_300us"]
-[ext_resource type="Script" path="res://src/scenes/Cursor/Cursor.gd" id="1_klljc"]
+[ext_resource type="Script" path="res://src/scenes/Cursor/cursor.gd" id="1_klljc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vbip0"]
 atlas = ExtResource("1_300us")
