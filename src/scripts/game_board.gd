@@ -7,17 +7,18 @@ extends Node2D
 # Reference to the grid resource containing tile size and grid dimensions
 @export var grid := preload("res://Grid.tres")
 
-# Currently selected unit
-var _active_unit: Unit
-# Array of tiles the active unit can walk to
-var _walkable_tiles = []
-
 # References to child nodes
 @onready var _unit_path: UnitPath = $UnitPath
 @onready var actions_menu = %ActionsMenu
 @onready var tile_info = %TileInfo
 @onready var dialog = %Dialog
 @onready var terrain = %Terrain
+
+# Currently selected unit
+var _active_unit: Unit
+# Array of tiles the active unit can walk to
+var _walkable_tiles = []
+var turn_manager
 
 # Function to get the "type" custom data from a tile
 func get_tile_type(position_to_check: Vector2) -> String:
@@ -83,6 +84,10 @@ func _display_tile_info(tile: Vector2) -> void:
 # Initialize the board when the scene is ready
 func _ready() -> void:
 	_reinitialize()
+
+	# set up the turn manager
+	turn_manager = get_node("../TurnManager")
+	print(turn_manager)
 
 	# set up an example dialog scenario with the dialog node and chapter 1
 	# dialog.set_dialog_data_by_chapter("ch1")

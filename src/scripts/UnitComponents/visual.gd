@@ -16,10 +16,6 @@ func highlight():
 func clear_highlight():
 	_sprite.modulate = Color(1, 1, 1)
 
-func play_move_animation(path: Array):
-	# Interpolate movement visually here
-	pass
-
 func update_animation() -> void:	
 	# Calculate movement direction between points
 	var movement_direction = Vector2.ZERO
