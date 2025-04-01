@@ -7,10 +7,10 @@
 [ext_resource type="Script" path="res://src/scripts/Dialog/dialog.gd" id="6_md2og"]
 [ext_resource type="Texture2D" uid="uid://bp2hh0i1b7slj" path="res://assets/sprites/Acolyte_02_portrait.png" id="7_bgtua"]
 [ext_resource type="Script" path="res://src/scripts/game_board.gd" id="8_1hfn7"]
-[ext_resource type="PackedScene" uid="uid://bpg7gtxrjh0gm" path="res://src/scenes/Unit/unit.tscn" id="9_imwmi"]
 [ext_resource type="PackedScene" uid="uid://ddl2rnsk8q762" path="res://src/scenes/UnitPath/unit_path.tscn" id="10_oqbv5"]
 [ext_resource type="PackedScene" uid="uid://ba8cqauwlj5bi" path="res://src/scenes/Cursor/cursor.tscn" id="11_8xlrq"]
 [ext_resource type="Script" path="res://src/scripts/turn_manager.gd" id="11_xo4y7"]
+[ext_resource type="Script" path="res://src/scripts/Grid/tile_highlighter.gd" id="12_kupnt"]
 [ext_resource type="Script" path="res://src/scripts/setup_manager.gd" id="12_pkfly"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1y6uf"]
@@ -57,6 +57,9 @@ tile_set = ExtResource("3_11lqc")
 unique_name_in_owner = true
 tile_map_data = PackedByteArray("AAABAAEAAwAAAAEAAAAFAAQAAwAAAAEAAAAFAAAAAwAEAAAAAAAGAAEAAwAFAAEAAAAHAAEAAwAGAAEAAAAEAAEAAwADAAEAAAAIAAEAAwAHAAEAAAAQAAAAAwAFAAMAAAAQAAEAAwAFAAQAAAAQAAIAAwAFAAUAAAARAAAAAwAGAAMAAAARAAEAAwAGAAQAAAARAAIAAwAGAAUAAAASAAAAAwAHAAMAAAASAAEAAwAHAAQAAAASAAIAAwAHAAUAAAAFAAEAAwAEAAEAAAAGAAAAAwAFAAAAAAAGAAIAAwAFAAIAAAAHAAAAAwAGAAAAAAAIAAAAAwAHAAAAAAAIAAIAAwAHAAIAAAAAAAQAAwAIAAEAAAAAAAUAAwAIAAIAAAACAAQAAwAKAAEAAAACAAUAAwAKAAIAAAADAAIAAwAJAAEAAAADAAMAAwAJAAIAAAA=")
 tile_set = ExtResource("3_11lqc")
+
+[node name="TileHighlighter" type="Node2D" parent="."]
+script = ExtResource("12_kupnt")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -200,12 +203,6 @@ texture = SubResource("AtlasTexture_vbdju")
 script = ExtResource("8_1hfn7")
 
 [node name="UnitPath" parent="GameBoard" instance=ExtResource("10_oqbv5")]
-
-[node name="Unit" parent="GameBoard" instance=ExtResource("9_imwmi")]
-position = Vector2(16, 31)
-
-[node name="Unit2" parent="GameBoard" instance=ExtResource("9_imwmi")]
-position = Vector2(48, 60)
 
 [node name="Cursor" parent="GameBoard" instance=ExtResource("11_8xlrq")]
 unique_name_in_owner = true

@@ -19,6 +19,7 @@ var _active_unit: Unit
 # Array of tiles the active unit can walk to
 var _walkable_tiles = []
 var turn_manager
+var setup_manager
 
 # Function to get the "type" custom data from a tile
 func get_tile_type(position_to_check: Vector2) -> String:
@@ -85,13 +86,19 @@ func _display_tile_info(tile: Vector2) -> void:
 func _ready() -> void:
 	_reinitialize()
 
-	# set up the turn manager
 	turn_manager = get_node("../TurnManager")
-	print(turn_manager)
+	setup_manager = get_node("../SetupManager")
+
+	setup_manager.grid = grid
 
 	# set up an example dialog scenario with the dialog node and chapter 1
 	# dialog.set_dialog_data_by_chapter("ch1")
 	# dialog.start()
+
+	# set up an example with some tiles highlighted as 
+	# the tiles the player can place units on for the setup phase
+	var initial_tiles: Array[Vector2i] = [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0)];
+	setup_manager.begin_setup(initial_tiles)
 
 
 # Draw debugging visuals for walkable tiles

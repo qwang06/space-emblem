@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="Grid" load_steps=2 format=3 uid="uid://d1b6wixqjrvjt"]
 
-[ext_resource type="Script" path="res://src/scripts/Grid/grid.gd" id="1_ayi7v"]
+[ext_resource type="Script" path="res://src/scripts/Grid/grid.gd" id="1_bhv0o"]
 
 [resource]
-script = ExtResource("1_ayi7v")
+script = ExtResource("1_bhv0o")
 size = Vector2(20, 15)
 tile_size = Vector2(32, 32)

@@ -4,16 +4,19 @@ signal unit_placed(unit: Node2D)
 signal placement_complete()
 
 @export var max_units := 5
+
+var grid: Grid = null  # Injected
 var setup_tiles: Array[Vector2i] = []
 var placed_units: Array[Node2D] = []
-
-var grid: Node = null  # Injected
 var unit_scene: PackedScene = preload("res://src/scenes/Unit/unit.tscn")
+var tile_highlighter
 
 func begin_setup(allowed_tiles: Array[Vector2i]):
 	setup_tiles = allowed_tiles
 	placed_units.clear()
-	highlight_setup_tiles()
+	tile_highlighter = get_parent().get_node("TileHighlighter")
+	tile_highlighter.set_highlighted_tiles(setup_tiles)
+
 
 func handle_tile_click(tile: Vector2i) -> void:
 	if not setup_tiles.has(tile):
@@ -37,10 +40,6 @@ func handle_tile_click(tile: Vector2i) -> void:
 
 	if placed_units.size() == max_units:
 		emit_signal("placement_complete")
-
-func highlight_setup_tiles():
-	# Visualize tiles with glow or color
-	pass
 
 func cancel_setup():
 	# Cleanup visuals, reset state if needed
