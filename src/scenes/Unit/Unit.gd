@@ -36,8 +36,6 @@ func _ready() -> void:
 
 func initialize(grid_ref: Grid) -> void:
 	movement.grid = grid_ref
-	tile = grid_ref.calculate_grid_coordinates(position)
-	position = grid_ref.calculate_map_position(tile)
 
 
 # Get the unit's portrait

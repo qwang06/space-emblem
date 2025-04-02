@@ -95,11 +95,6 @@ func _ready() -> void:
 	# dialog.set_dialog_data_by_chapter("ch1")
 	# dialog.start()
 
-	# set up an example with some tiles highlighted as 
-	# the tiles the player can place units on for the setup phase
-	var initial_tiles: Array[Vector2i] = [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0)];
-	setup_manager.begin_setup(initial_tiles)
-
 
 # Draw debugging visuals for walkable tiles
 func _draw() -> void:
@@ -159,18 +154,21 @@ func _clear_active_unit() -> void:
 # Handler for when the cursor confirms a selection (e.g., player presses Enter/Space)
 # Handles both unit selection and movement commands
 func _on_cursor_confirm_pressed(tile: Vector2) -> void:
-	if not _active_unit:
-		# If no unit is selected, try to select one at the cursor position
-		_select_unit(tile)
-	
-		# If a unit was successfully selected, show the actions menu
-		if _active_unit:
-			actions_menu.show()
-	elif _active_unit.selected and tile in _walkable_tiles:
-		_deselect_active_unit()
-		# If a unit is already selected, try to move it to the cursor position
-		await _active_unit.movement.move_to(tile, _unit_path.current_path)
-		_clear_active_unit()
+	if turn_manager.current_phase == turn_manager.Phase.SETUP:
+		setup_manager.handle_tile_click(tile)
+	elif turn_manager.current_phase == turn_manager.Phase.PLAYER:
+		if not _active_unit:
+			# If no unit is selected, try to select one at the cursor position
+			_select_unit(tile)
+		
+			# If a unit was successfully selected, show the actions menu
+			if _active_unit:
+				actions_menu.show()
+		elif _active_unit.selected and tile in _walkable_tiles:
+			_deselect_active_unit()
+			# If a unit is already selected, try to move it to the cursor position
+			await _active_unit.movement.move_to(tile, _unit_path.current_path)
+			_clear_active_unit()
 
 
 # Handler for when the cursor cancels an action (e.g., player presses Escape)

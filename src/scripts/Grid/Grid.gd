@@ -17,6 +17,18 @@ const DIRECTIONS = [
 # Dictionary tracking all units on the board using their tile coordinates as keys
 var units = {}
 
+# returns the unit at the given tile
+func get_unit_at(tile: Vector2) -> Unit:
+	if not units.has(tile):
+		return null
+	return units[tile]
+
+
+# place a unit on the board
+func place_unit(unit: Unit, tile: Vector2) -> void:
+	units[tile] = unit
+
+
 # returns the coords of a tile's center in pixels
 func calculate_map_position(position: Vector2) -> Vector2:
 	var half_tile_size = tile_size / 2

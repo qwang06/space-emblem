@@ -3,7 +3,7 @@ extends Node
 signal unit_placed(unit: Node2D)
 signal placement_complete()
 
-@export var max_units := 5
+@export var max_units := 2
 
 var grid: Grid = null  # Injected
 var setup_tiles: Array[Vector2i] = []
@@ -31,10 +31,11 @@ func handle_tile_click(tile: Vector2i) -> void:
 		return
 
 	var unit = unit_scene.instantiate()
-	unit.position = grid.map_to_world(tile)
+	unit.position = grid.calculate_map_position(tile)
 	get_tree().current_scene.add_child(unit)
+	unit.initialize(grid)
 
-	grid.place_unit(tile, unit)
+	grid.place_unit(unit, tile)
 	placed_units.append(unit)
 	emit_signal("unit_placed", unit)
 

@@ -11,18 +11,18 @@ enum Phase {
 	END
 }
 
-@export var auto_advance := true
+@export var auto_advance := false
 
 var current_phase: Phase = Phase.SETUP
 var phase_order: Array[Phase] = [
-	Phase.SETUP,
+	Phase.SETUP, # setup phase only runs once
 	Phase.PLAYER,
 	Phase.ALLY,
 	Phase.ENEMY,
 	Phase.END
 ]
-
 var active_units: Array[Node] = []
+var turns: int = 0
 
 func _ready():
 	start_phase(Phase.SETUP)
@@ -43,7 +43,7 @@ func start_phase(phase: Phase) -> void:
 		Phase.ENEMY:
 			_begin_team_turn("Enemy")
 		Phase.END:
-			_on_end_phase()
+			_on_end_turn()
 
 
 func end_phase() -> void:
@@ -59,15 +59,26 @@ func advance() -> void:
 
 
 func _on_setup_phase():
+	var setup_manager = get_node("../SetupManager")
 	# var tiles := grid.get_deployment_tiles("Player")  # You define this per map
 	# setup_manager.begin_setup(tiles)
-	pass
-	# setup_manager.connect("placement_complete", Callable(self, "_on_setup_finished"))
+
+	# set up an example with some tiles highlighted as 
+	# the tiles the player can place units on for the setup phase
+	var initial_tiles: Array[Vector2i] = [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0)];
+	setup_manager.begin_setup(initial_tiles)
+	setup_manager.connect("placement_complete", Callable(self, "_on_setup_finished"))
 
 
-func _on_end_phase():
+func _on_setup_finished():
+	print("Setup complete.")
+	advance()
+
+
+func _on_end_turn():
 	# Show summary, transition to next map, etc.
 	print("Turn cycle complete.")
+	turns += 1
 	# Optionally loop:
 	start_phase(Phase.PLAYER)
 
@@ -91,9 +102,10 @@ func notify_unit_done(unit: Node) -> void:
 
 
 func _get_units_by_faction(faction: String) -> Array[Node]:
-	var result := []
+	var result: Array[Node] = []
 	for unit in get_tree().get_nodes_in_group("Units"):
 		var comp = unit.get_node_or_null("FactionComponent")
+		print(comp)
 		if comp and comp.get_faction_name() == faction:
 			result.append(unit)
 	return result
