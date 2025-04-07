@@ -49,14 +49,14 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_krn2h"]
 atlas = ExtResource("2_7y2pp")
-region = Rect2(12, 12, 72, 72)
+region = Rect2(578, 100, 92, 26)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8kmg7"]
 texture = SubResource("AtlasTexture_krn2h")
-texture_margin_left = 16.0
-texture_margin_top = 16.0
-texture_margin_right = 16.0
-texture_margin_bottom = 16.0
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
 
 [resource]
 ActionButton/base_type = &"Button"
@@ -77,6 +77,12 @@ ActionButton/styles/normal = SubResource("StyleBoxEmpty_8nhwp")
 ActionButton/styles/normal_mirrored = SubResource("StyleBoxEmpty_pe7ev")
 ActionButton/styles/pressed = SubResource("StyleBoxEmpty_888gp")
 ActionButton/styles/pressed_mirrored = SubResource("StyleBoxEmpty_dcj54")
+Button/colors/font_color = Color(0.133333, 0.133333, 0.133333, 1)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_outline_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
 Button/fonts/font = ExtResource("1_03kgh")
 Label/colors/font_color = Color(0.133196, 0.133196, 0.133196, 1)
 Label/font_sizes/font_size = 16

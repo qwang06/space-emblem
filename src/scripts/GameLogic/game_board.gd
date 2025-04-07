@@ -18,8 +18,25 @@ extends Node2D
 var _active_unit: Unit
 # Array of tiles the active unit can walk to
 var _walkable_tiles = []
+var _chapterConfig = {}
+var utils = Utils.new()
 var turn_manager
-var setup_manager
+var deployment_controller
+
+# Initialize the board when the scene is ready
+func _ready() -> void:
+	_reinitialize()
+
+	# Get GridOverlay
+	var grid_overlay = utils.find_descendant_by_name(self, "GridOverlay")
+	_chapterConfig = utils.get_json("res://assets/config/chapter1.json")
+	turn_manager = get_node("../TurnManager")
+	deployment_controller = get_node("../SetupManager/DeploymentController")
+
+	deployment_controller.init(grid, grid_overlay, _chapterConfig.get("deployment"))
+
+	turn_manager.start_phase(turn_manager.Phase.SETUP)
+
 
 # Function to get the "type" custom data from a tile
 func get_tile_type(position_to_check: Vector2) -> String:
@@ -48,7 +65,6 @@ func get_tile_type_at(tile: Vector2) -> String:
 # ==================================================================
 
 func _display_tile_info(tile: Vector2) -> void:
-	var utils = Utils.new()
 	# Get custom data from tileset to determine the terrain type
 	# Check what is under the cursor to display tile info
 	var unit = grid.units.get(tile)
@@ -80,20 +96,6 @@ func _display_tile_info(tile: Vector2) -> void:
 		type_label.hide()
 		# Hide tile_info if no unit is found
 		tile_info.hide()
-
-
-# Initialize the board when the scene is ready
-func _ready() -> void:
-	_reinitialize()
-
-	turn_manager = get_node("../TurnManager")
-	setup_manager = get_node("../SetupManager")
-
-	setup_manager.grid = grid
-
-	# set up an example dialog scenario with the dialog node and chapter 1
-	# dialog.set_dialog_data_by_chapter("ch1")
-	# dialog.start()
 
 
 # Draw debugging visuals for walkable tiles
@@ -155,7 +157,7 @@ func _clear_active_unit() -> void:
 # Handles both unit selection and movement commands
 func _on_cursor_confirm_pressed(tile: Vector2) -> void:
 	if turn_manager.current_phase == turn_manager.Phase.SETUP:
-		setup_manager.handle_tile_click(tile)
+		deployment_controller.handle_tile_click(tile)
 	elif turn_manager.current_phase == turn_manager.Phase.PLAYER:
 		if not _active_unit:
 			# If no unit is selected, try to select one at the cursor position

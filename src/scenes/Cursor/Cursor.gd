@@ -29,7 +29,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	 	or event.is_action_pressed("confirm")
 	):
 		# left click or confirm action (e.g. space key)
-		emit_signal("confirm_pressed", tile)
+		confirm_pressed.emit(tile)
 		# stop propagation
 		get_viewport().set_input_as_handled()
 		return
@@ -38,7 +38,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	 	or event.is_action_pressed("cancel")
 	):
 		# right click or cancel action (e.g. escape key)
-		emit_signal("cancel_pressed")
+		cancel_pressed.emit()
 		print("cancel pressed")
 		# stop propagation
 		get_viewport().set_input_as_handled()
@@ -70,5 +70,5 @@ func set_tile(value: Vector2) -> void:
 
 	tile = new_tile
 	position = grid.calculate_map_position(tile)
-	emit_signal("moved", tile)
+	moved.emit(tile)
 	_timer.start()

@@ -6,12 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://chs6dgsk570kb" path="res://assets/sprites/RPG UI.png" id="5_bmvgg"]
 [ext_resource type="Script" path="res://src/scripts/Dialog/dialog.gd" id="6_md2og"]
 [ext_resource type="Texture2D" uid="uid://bp2hh0i1b7slj" path="res://assets/sprites/Acolyte_02_portrait.png" id="7_bgtua"]
-[ext_resource type="Script" path="res://src/scripts/game_board.gd" id="8_1hfn7"]
+[ext_resource type="Script" path="res://src/scripts/GameLogic/game_board.gd" id="8_1hfn7"]
 [ext_resource type="PackedScene" uid="uid://ddl2rnsk8q762" path="res://src/scenes/UnitPath/unit_path.tscn" id="10_oqbv5"]
 [ext_resource type="PackedScene" uid="uid://ba8cqauwlj5bi" path="res://src/scenes/Cursor/cursor.tscn" id="11_8xlrq"]
-[ext_resource type="Script" path="res://src/scripts/turn_manager.gd" id="11_xo4y7"]
+[ext_resource type="Script" path="res://src/scripts/GameLogic/turn_manager.gd" id="11_xo4y7"]
 [ext_resource type="Script" path="res://src/scripts/Grid/tile_highlighter.gd" id="12_kupnt"]
-[ext_resource type="Script" path="res://src/scripts/setup_manager.gd" id="12_pkfly"]
+[ext_resource type="Script" path="res://src/scripts/SetupManager/deployment_controller.gd" id="13_6reaj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1y6uf"]
 atlas = ExtResource("5_bmvgg")
@@ -58,23 +58,19 @@ unique_name_in_owner = true
 tile_map_data = PackedByteArray("AAABAAEAAwAAAAEAAAAFAAQAAwAAAAEAAAAFAAAAAwAEAAAAAAAGAAEAAwAFAAEAAAAHAAEAAwAGAAEAAAAEAAEAAwADAAEAAAAIAAEAAwAHAAEAAAAQAAAAAwAFAAMAAAAQAAEAAwAFAAQAAAAQAAIAAwAFAAUAAAARAAAAAwAGAAMAAAARAAEAAwAGAAQAAAARAAIAAwAGAAUAAAASAAAAAwAHAAMAAAASAAEAAwAHAAQAAAASAAIAAwAHAAUAAAAFAAEAAwAEAAEAAAAGAAAAAwAFAAAAAAAGAAIAAwAFAAIAAAAHAAAAAwAGAAAAAAAIAAAAAwAHAAAAAAAIAAIAAwAHAAIAAAAAAAQAAwAIAAEAAAAAAAUAAwAIAAIAAAACAAQAAwAKAAEAAAACAAUAAwAKAAIAAAADAAIAAwAJAAEAAAADAAMAAwAJAAIAAAA=")
 tile_set = ExtResource("3_11lqc")
 
-[node name="TileHighlighter" type="Node2D" parent="."]
-script = ExtResource("12_kupnt")
+[node name="UI" type="CanvasLayer" parent="."]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="ActionsMenu" type="PanelContainer" parent="CanvasLayer"]
+[node name="ActionsMenu" type="PanelContainer" parent="UI"]
 unique_name_in_owner = true
-visible = false
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -174.0
-offset_bottom = 100.0
+offset_left = -133.0
+offset_bottom = 84.0
 grow_horizontal = 0
 theme = ExtResource("4_avljk")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ActionsMenu"]
+[node name="MarginContainer" type="MarginContainer" parent="UI/ActionsMenu"]
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/margin_left = 4
@@ -82,71 +78,73 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer/ActionsMenu/MarginContainer"]
+[node name="GridContainer" type="GridContainer" parent="UI/ActionsMenu/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 
-[node name="Move" type="Button" parent="CanvasLayer/ActionsMenu/MarginContainer/GridContainer"]
+[node name="Move" type="Button" parent="UI/ActionsMenu/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_type_variation = &"ActionButton"
 text = "MOVE"
 icon = SubResource("AtlasTexture_1y6uf")
 alignment = 0
 
-[node name="Attack" type="Button" parent="CanvasLayer/ActionsMenu/MarginContainer/GridContainer"]
+[node name="Attack" type="Button" parent="UI/ActionsMenu/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_type_variation = &"ActionButton"
 text = "ATTACK"
 icon = SubResource("AtlasTexture_tsk2v")
 alignment = 0
 
-[node name="TileInfo" type="PanelContainer" parent="CanvasLayer"]
+[node name="TileInfo" type="PanelContainer" parent="UI"]
 unique_name_in_owner = true
+visible = false
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -164.0
-offset_top = -60.0
+offset_left = -148.0
+offset_top = -44.0
 grow_horizontal = 0
 grow_vertical = 0
 size_flags_horizontal = 6
 theme = ExtResource("4_avljk")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/TileInfo"]
+[node name="MarginContainer" type="MarginContainer" parent="UI/TileInfo"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer/TileInfo/MarginContainer"]
+[node name="GridContainer" type="GridContainer" parent="UI/TileInfo/MarginContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 theme_override_constants/h_separation = 4
 columns = 2
 
-[node name="Health" type="Button" parent="CanvasLayer/TileInfo/MarginContainer/GridContainer"]
+[node name="Health" type="Button" parent="UI/TileInfo/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_type_variation = &"LabelWithIcon"
 text = "9999"
 icon = SubResource("AtlasTexture_nu1f8")
 
-[node name="Mana" type="Button" parent="CanvasLayer/TileInfo/MarginContainer/GridContainer"]
+[node name="Mana" type="Button" parent="UI/TileInfo/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_type_variation = &"LabelWithIcon"
 text = "9999"
 icon = SubResource("AtlasTexture_glull")
 
-[node name="Terrain" type="Label" parent="CanvasLayer/TileInfo/MarginContainer"]
+[node name="Terrain" type="Label" parent="UI/TileInfo/MarginContainer"]
 visible = false
 layout_mode = 2
 text = "Test Label"
 
-[node name="Dialog" type="MarginContainer" parent="CanvasLayer"]
+[node name="Dialog" type="MarginContainer" parent="UI"]
 unique_name_in_owner = true
 visible = false
 anchors_preset = 7
@@ -161,31 +159,31 @@ grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("6_md2og")
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Dialog"]
+[node name="PanelContainer" type="PanelContainer" parent="UI/Dialog"]
 layout_mode = 2
 theme = ExtResource("4_avljk")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Dialog/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="UI/Dialog/PanelContainer"]
 layout_mode = 2
 
-[node name="GridContainer2" type="GridContainer" parent="CanvasLayer/Dialog/PanelContainer/MarginContainer"]
+[node name="GridContainer2" type="GridContainer" parent="UI/Dialog/PanelContainer/MarginContainer"]
 layout_mode = 2
 columns = 2
 
-[node name="Portrait" type="TextureRect" parent="CanvasLayer/Dialog/PanelContainer/MarginContainer/GridContainer2"]
+[node name="Portrait" type="TextureRect" parent="UI/Dialog/PanelContainer/MarginContainer/GridContainer2"]
 layout_mode = 2
 texture = ExtResource("7_bgtua")
 
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Dialog/PanelContainer/MarginContainer/GridContainer2"]
+[node name="GridContainer" type="GridContainer" parent="UI/Dialog/PanelContainer/MarginContainer/GridContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Title" type="Label" parent="CanvasLayer/Dialog/PanelContainer/MarginContainer/GridContainer2/GridContainer"]
+[node name="Title" type="Label" parent="UI/Dialog/PanelContainer/MarginContainer/GridContainer2/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Character"
 
-[node name="Content" type="Label" parent="CanvasLayer/Dialog/PanelContainer/MarginContainer/GridContainer2/GridContainer"]
+[node name="Content" type="Label" parent="UI/Dialog/PanelContainer/MarginContainer/GridContainer2/GridContainer"]
 clip_contents = true
 custom_minimum_size = Vector2(400, 75)
 layout_mode = 2
@@ -194,10 +192,35 @@ size_flags_vertical = 3
 text = "Hello World! Hello World! Hello World! Hello World! Hello World! Hello World! Hello World! Hello World! Hello World! Hello World! "
 autowrap_mode = 2
 
-[node name="ContinueIcon" type="TextureRect" parent="CanvasLayer/Dialog/PanelContainer/MarginContainer/GridContainer2/GridContainer"]
+[node name="ContinueIcon" type="TextureRect" parent="UI/Dialog/PanelContainer/MarginContainer/GridContainer2/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 texture = SubResource("AtlasTexture_vbdju")
+
+[node name="DeploymentUI" type="PanelContainer" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -32.0
+offset_bottom = 32.0
+grow_horizontal = 0
+theme = ExtResource("4_avljk")
+
+[node name="GridContainer" type="GridContainer" parent="UI/DeploymentUI"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="UI/DeploymentUI/GridContainer"]
+layout_mode = 2
+text = "Hello, World!"
+flat = true
+
+[node name="SetupManager" type="Node" parent="."]
+
+[node name="DeploymentController" type="Node" parent="SetupManager"]
+script = ExtResource("13_6reaj")
+
+[node name="TurnManager" type="Node" parent="."]
+script = ExtResource("11_xo4y7")
 
 [node name="GameBoard" type="Node2D" parent="."]
 script = ExtResource("8_1hfn7")
@@ -208,14 +231,15 @@ script = ExtResource("8_1hfn7")
 unique_name_in_owner = true
 position = Vector2(16, 32)
 
-[node name="TurnManager" type="Node" parent="."]
-script = ExtResource("11_xo4y7")
+[node name="UnitContainer" type="Node" parent="GameBoard"]
 
-[node name="SetupManager" type="Node" parent="."]
-script = ExtResource("12_pkfly")
+[node name="PreviewUnitContainer" type="Node" parent="GameBoard"]
 
-[connection signal="pressed" from="CanvasLayer/ActionsMenu/MarginContainer/GridContainer/Move" to="GameBoard" method="_on_move_pressed"]
+[node name="GridOverlay" type="Node2D" parent="GameBoard"]
+script = ExtResource("12_kupnt")
+
+[connection signal="pressed" from="UI/ActionsMenu/MarginContainer/GridContainer/Move" to="GameBoard" method="_on_move_pressed"]
 [connection signal="cancel_pressed" from="GameBoard/Cursor" to="GameBoard" method="_on_cursor_cancel_pressed"]
-[connection signal="confirm_pressed" from="GameBoard/Cursor" to="CanvasLayer/Dialog" method="_on_cursor_confirm_pressed"]
+[connection signal="confirm_pressed" from="GameBoard/Cursor" to="UI/Dialog" method="_on_cursor_confirm_pressed"]
 [connection signal="confirm_pressed" from="GameBoard/Cursor" to="GameBoard" method="_on_cursor_confirm_pressed"]
 [connection signal="moved" from="GameBoard/Cursor" to="GameBoard" method="_on_cursor_moved"]

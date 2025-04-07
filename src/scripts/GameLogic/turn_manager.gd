@@ -24,10 +24,6 @@ var phase_order: Array[Phase] = [
 var active_units: Array[Node] = []
 var turns: int = 0
 
-func _ready():
-	start_phase(Phase.SETUP)
-
-
 func start_phase(phase: Phase) -> void:
 	current_phase = phase
 	print("Starting phase:", phase_to_string(phase))
@@ -59,15 +55,10 @@ func advance() -> void:
 
 
 func _on_setup_phase():
-	var setup_manager = get_node("../SetupManager")
-	# var tiles := grid.get_deployment_tiles("Player")  # You define this per map
-	# setup_manager.begin_setup(tiles)
+	var deployment_controller = get_node("../SetupManager/DeploymentController")
 
-	# set up an example with some tiles highlighted as 
-	# the tiles the player can place units on for the setup phase
-	var initial_tiles: Array[Vector2i] = [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0)];
-	setup_manager.begin_setup(initial_tiles)
-	setup_manager.connect("placement_complete", Callable(self, "_on_setup_finished"))
+	deployment_controller.begin_setup()
+	deployment_controller.connect("placement_complete", Callable(self, "_on_setup_finished"))
 
 
 func _on_setup_finished():

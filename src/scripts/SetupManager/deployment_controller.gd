@@ -5,17 +5,36 @@ signal placement_complete()
 
 @export var max_units := 2
 
+# Ideally units should come from player's save file, this is just for testing
+var blue_mage: PackedScene = preload("res://src/scenes/Unit/Characters/blue_mage.tscn")
+var red_mage: PackedScene = preload("res://src/scenes/Unit/Characters/red_mage.tscn")
+
 var grid: Grid = null  # Injected
 var setup_tiles: Array[Vector2i] = []
 var placed_units: Array[Node2D] = []
-var unit_scene: PackedScene = preload("res://src/scenes/Unit/unit.tscn")
-var tile_highlighter
+var deployment = {}
+var grid_overlay 
 
-func begin_setup(allowed_tiles: Array[Vector2i]):
-	setup_tiles = allowed_tiles
+func init(g: Grid, go, d):
+	grid = g
+	deployment = d
+	grid_overlay = go
+	
+
+func begin_setup():
+	if (
+		not deployment.has("player")
+		or deployment["player"].size() == 0
+	):
+		return
+	# loop through deployment_zones["player"] and convert to Vector2i
+	for i in range(deployment["player"].size()):
+		setup_tiles.append(
+			Vector2i(deployment["player"][i][0],
+			deployment["player"][i][1])
+		)
 	placed_units.clear()
-	tile_highlighter = get_parent().get_node("TileHighlighter")
-	tile_highlighter.set_highlighted_tiles(setup_tiles)
+	grid_overlay.set_highlighted_tiles(setup_tiles)
 
 
 func handle_tile_click(tile: Vector2i) -> void:
@@ -30,7 +49,7 @@ func handle_tile_click(tile: Vector2i) -> void:
 		print("Tile already occupied")
 		return
 
-	var unit = unit_scene.instantiate()
+	var unit = red_mage.instantiate()
 	unit.position = grid.calculate_map_position(tile)
 	get_tree().current_scene.add_child(unit)
 	unit.initialize(grid)
