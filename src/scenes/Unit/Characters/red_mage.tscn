@@ -278,7 +278,7 @@ animations = [{
 "speed": 4.0
 }]
 
-[node name="Unit" type="Path2D"]
+[node name="Red Mage" type="Path2D"]
 script = ExtResource("1_abcwl")
 
 [node name="Portrait" type="Sprite2D" parent="."]
@@ -293,7 +293,8 @@ loop = false
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PathFollow2D"]
 position = Vector2(0, -14)
 sprite_frames = SubResource("SpriteFrames_c7rgw")
-animation = &"walk_right"
+animation = &"idle_front"
+frame_progress = 0.3843
 
 [node name="ActionComponent" type="Node" parent="."]
 script = ExtResource("5_nbvei")

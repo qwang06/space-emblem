@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://hl46q5x4i8ph"]
+[gd_scene load_steps=19 format=4 uid="uid://hl46q5x4i8ph"]
 
 [ext_resource type="Script" path="res://src/scripts/Camera/camera_2d.gd" id="1_kpg1m"]
 [ext_resource type="TileSet" uid="uid://r3wtlsw1o4l3" path="res://assets/tilesets/rpg_ow.tres" id="3_11lqc"]
@@ -36,6 +36,10 @@ atlas = ExtResource("5_bmvgg")
 region = Rect2(76, 268, 10, 10)
 margin = Rect2(0, 0, 5, 5)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_j1xku"]
+atlas = ExtResource("5_bmvgg")
+region = Rect2(96, 208, 96, 4)
+
 [node name="Game" type="Node"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -62,6 +66,7 @@ tile_set = ExtResource("3_11lqc")
 
 [node name="ActionsMenu" type="PanelContainer" parent="UI"]
 unique_name_in_owner = true
+visible = false
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -206,18 +211,23 @@ offset_bottom = 32.0
 grow_horizontal = 0
 theme = ExtResource("4_avljk")
 
-[node name="GridContainer" type="GridContainer" parent="UI/DeploymentUI"]
+[node name="DeployableUnits" type="GridContainer" parent="UI/DeploymentUI"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="UI/DeploymentUI/GridContainer"]
+[node name="Label" type="Label" parent="UI/DeploymentUI/DeployableUnits"]
 layout_mode = 2
-text = "Hello, World!"
-flat = true
+theme_override_font_sizes/font_size = 20
+text = "DEPLOYABLE UNITS"
+
+[node name="TextureRect" type="TextureRect" parent="UI/DeploymentUI/DeployableUnits"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_j1xku")
 
 [node name="SetupManager" type="Node" parent="."]
 
-[node name="DeploymentController" type="Node" parent="SetupManager"]
+[node name="DeploymentController" type="Node" parent="SetupManager" node_paths=PackedStringArray("deployment_ui")]
 script = ExtResource("13_6reaj")
+deployment_ui = NodePath("../../UI/DeploymentUI/DeployableUnits")
 
 [node name="TurnManager" type="Node" parent="."]
 script = ExtResource("11_xo4y7")
