@@ -225,9 +225,10 @@ texture = SubResource("AtlasTexture_j1xku")
 
 [node name="SetupManager" type="Node" parent="."]
 
-[node name="DeploymentController" type="Node" parent="SetupManager" node_paths=PackedStringArray("deployment_ui")]
+[node name="DeploymentController" type="Node" parent="SetupManager" node_paths=PackedStringArray("deployment_ui", "unit_container")]
 script = ExtResource("13_6reaj")
-deployment_ui = NodePath("../../UI/DeploymentUI/DeployableUnits")
+deployment_ui = NodePath("../../UI/DeploymentUI")
+unit_container = NodePath("../../GameBoard/UnitContainer")
 
 [node name="TurnManager" type="Node" parent="."]
 script = ExtResource("11_xo4y7")
