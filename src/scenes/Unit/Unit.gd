@@ -22,7 +22,7 @@ extends Path2D
 # selected status
 var selected := false:
 	set = set_selected
-var tile: Vector2:
+var tile: Vector2i:
 	get = get_tile, set = set_tile
 
 func _ready() -> void:
@@ -43,11 +43,11 @@ func get_portrait() -> Texture:
 	return _portrait.texture
 
 
-func get_tile() -> Vector2:
+func get_tile() -> Vector2i:
 	return movement.tile
 
 
-func set_tile(value: Vector2) -> void:
+func set_tile(value: Vector2i) -> void:
 	movement.tile = value
 
 

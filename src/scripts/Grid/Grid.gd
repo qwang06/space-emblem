@@ -3,30 +3,36 @@ extends Resource
 
 # The four cardinal directions used for pathfinding and movement
 const DIRECTIONS = [
-	Vector2.LEFT,
-	Vector2.RIGHT,
-	Vector2.UP,
-	Vector2.DOWN,
+	Vector2i.LEFT,
+	Vector2i.RIGHT,
+	Vector2i.UP,
+	Vector2i.DOWN,
 ]
 
 # grid size
-@export var size := Vector2(20, 15)
+@export var size := Vector2i(20, 15)
 # tile size
-@export var tile_size := Vector2(32, 32)
+@export var tile_size := Vector2i(32, 32)
 
 # Dictionary tracking all units on the board using their tile coordinates as keys
 var units = {}
 
 # returns the unit at the given tile
-func get_unit_at(tile: Vector2) -> Unit:
+func get_unit_at(tile: Vector2i) -> Unit:
 	if not units.has(tile):
 		return null
 	return units[tile]
 
 
 # place a unit on the board
-func place_unit(unit: Unit, tile: Vector2) -> void:
+func place_unit(unit: Unit, tile: Vector2i) -> void:
 	units[tile] = unit
+
+
+# remove a unit from the board
+func remove_unit(tile: Vector2i) -> void:
+	if units.has(tile):
+		units.erase(tile)
 
 
 # returns the coords of a tile's center in pixels
@@ -39,8 +45,9 @@ func calculate_map_position(position: Vector2) -> Vector2:
 
 
 # returns coords of a tile in the grid given a position in pixels
-func calculate_grid_coordinates(position: Vector2) -> Vector2:
-	return (position / tile_size).floor()
+func calculate_grid_coordinates(position: Vector2) -> Vector2i:
+	var tile = (position / Vector2(tile_size)).floor()
+	return Vector2i(tile.x, tile.y)
 
 
 # returns true if the given position is inside the grid
@@ -49,27 +56,24 @@ func is_within_bounds(position: Vector2) -> bool:
 
 
 # clamp function for grid -- makes the position fit within the grid
-func clamp(position: Vector2) -> Vector2:
-	var out := position
-	out.x = clamp(out.x, 0, size.x - 1)
-	out.y = clamp(out.y, 0, size.y - 1)
-	return out
+func clamp(position: Vector2) -> Vector2i:
+	return Vector2i(clamp(position.x, 0, size.x - 1), clamp(position.y, 0, size.y - 1))
 
 
 # creates an index given a tile
-func as_index(tile: Vector2) -> int:
+func as_index(tile: Vector2i) -> int:
 	return int(tile.x) + int(size.x) * int(tile.y)
 
 
 # Check if a tile position is occupied by any unit
 # TODO: should check other things as well such as terrain
-func is_occuppied(tile: Vector2) -> bool:
+func is_occuppied(tile: Vector2i) -> bool:
 	return units.has(tile)
 
 
 # Flood fill algorithm to find all accessible tiles within a given range
 # Returns an array of Vector2 coordinates representing walkable tiles
-func flood_fill(tile: Vector2, max_distance: int) -> Array:
+func flood_fill(tile: Vector2i, max_distance: int) -> Array:
 	var visited = []  # Tiles we've already processed
 	var queue = []    # Queue of tiles to process (with their distance from start)
 	queue.push_back([tile, 0])  # Start with the initial tile at distance 0

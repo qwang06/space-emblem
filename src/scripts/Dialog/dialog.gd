@@ -134,7 +134,7 @@ func get_title_label() -> Label:
 # ===================================================================
 # Signal handlers
 # ===================================================================
-func _on_cursor_confirm_pressed(tile: Vector2) -> void:
+func _on_cursor_confirm_pressed(tile: Vector2i) -> void:
 	print("Cursor confirm pressed at tile: ", tile)
 
 	# Check if the dialog box is visible

@@ -3,12 +3,12 @@ class_name Cursor
 extends Node2D
 
 signal confirm_pressed(tile)
-signal moved(tile)
+signal moved(prev_tile, new_tile)
 signal cancel_pressed
 
 @export var grid := preload("res://Grid.tres")
 @export var ui_cooldown := 0.1 # prevent spam
-var tile := Vector2.ZERO:
+var tile := Vector2i.ZERO:
 	set = set_tile
 
 @onready var _timer := $Timer
@@ -52,23 +52,24 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 
 	if event.is_action("move_up"):
-		tile += Vector2.UP
+		tile += Vector2i.UP
 	elif event.is_action("move_down"):
-		tile += Vector2.DOWN
+		tile += Vector2i.DOWN
 	elif event.is_action("move_left"):
-		tile += Vector2.LEFT
+		tile += Vector2i.LEFT
 	elif event.is_action("move_right"):
-		tile += Vector2.RIGHT
+		tile += Vector2i.RIGHT
 
 # func _draw() -> void:
 # 	draw_rect(Rect2(-grid.tile_size / 2, grid.tile_size), Color.ALICE_BLUE, false, 2.0)
 
-func set_tile(value: Vector2) -> void:
+func set_tile(value: Vector2i) -> void:
 	var new_tile = grid.clamp(value)
-	if new_tile.is_equal_approx(tile):
+	if new_tile == tile:
 		return
+
+	moved.emit(tile, new_tile)
 
 	tile = new_tile
 	position = grid.calculate_map_position(tile)
-	moved.emit(tile)
 	_timer.start()

@@ -54,7 +54,7 @@ func get_tile_type(position_to_check: Vector2) -> String:
 
 
 # Example usage in _on_cursor_moved to get and display tile type
-func get_tile_type_at(tile: Vector2) -> String:
+func get_tile_type_at(tile: Vector2i) -> String:
 	# Convert tile coordinates to global position
 	var global_pos = tile * grid.tile_size + grid.tile_size / 2
 	return get_tile_type(global_pos)
@@ -64,7 +64,7 @@ func get_tile_type_at(tile: Vector2) -> String:
 # These functions are used to manage the game state and unit interactions
 # ==================================================================
 
-func _display_tile_info(tile: Vector2) -> void:
+func _display_tile_info(tile: Vector2i) -> void:
 	# Get custom data from tileset to determine the terrain type
 	# Check what is under the cursor to display tile info
 	var unit = grid.units.get(tile)
@@ -117,7 +117,7 @@ func _reinitialize() -> void:
 
 # Select a unit at the specified tile position
 # Does nothing if no unit exists at that position
-func _select_unit(tile: Vector2) -> void:
+func _select_unit(tile: Vector2i) -> void:
 	if not grid.units.has(tile):
 		return
 
@@ -155,7 +155,7 @@ func _clear_active_unit() -> void:
 
 # Handler for when the cursor confirms a selection (e.g., player presses Enter/Space)
 # Handles both unit selection and movement commands
-func _on_cursor_confirm_pressed(tile: Vector2) -> void:
+func _on_cursor_confirm_pressed(tile: Vector2i) -> void:
 	if turn_manager.current_phase == turn_manager.Phase.SETUP:
 		deployment_controller.handle_tile_click(tile)
 	elif turn_manager.current_phase == turn_manager.Phase.PLAYER:
@@ -184,11 +184,11 @@ func _on_cursor_cancel_pressed() -> void:
 
 # Handler for when the cursor moves to a new tile
 # Updates the visual path from the active unit to the cursor's position
-func _on_cursor_moved(tile: Vector2) -> void:
+func _on_cursor_moved(_prev_tile: Vector2i, new_tile: Vector2i) -> void:
 	if _active_unit and _active_unit.selected:
-		_unit_path.draw(_active_unit.tile, tile)
+		_unit_path.draw(_active_unit.tile, new_tile)
 	else:
-		_display_tile_info(tile)
+		_display_tile_info(new_tile)
 
 
 # Handler for when the "Move" action is selected from the actions menu

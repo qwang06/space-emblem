@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://ddl2rnsk8q762"]
 
 [ext_resource type="TileSet" uid="uid://r3wtlsw1o4l3" path="res://assets/tilesets/rpg_ow.tres" id="1_uk62r"]
-[ext_resource type="Script" path="res://src/scenes/UnitPath/unit_path.gd" id="2_tiwww"]
+[ext_resource type="Script" uid="uid://si6r2k1k8k1x" path="res://src/scenes/UnitPath/unit_path.gd" id="2_tiwww"]
 [ext_resource type="Resource" uid="uid://d1b6wixqjrvjt" path="res://Grid.tres" id="3_it64e"]
 
 [node name="UnitPath" type="TileMapLayer"]

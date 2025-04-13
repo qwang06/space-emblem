@@ -1,15 +1,15 @@
 [gd_scene load_steps=44 format=3 uid="uid://bpg7gtxrjh0gm"]
 
-[ext_resource type="Script" path="res://src/scenes/Unit/unit.gd" id="1_kpade"]
+[ext_resource type="Script" uid="uid://dvd3miklrjwa2" path="res://src/scenes/Unit/unit.gd" id="1_kpade"]
 [ext_resource type="Texture2D" uid="uid://bfnsenewacdti" path="res://assets/sprites/Acolyte_01_portrait.png" id="2_pwmuy"]
 [ext_resource type="Texture2D" uid="uid://bd1u1e7fxkh1" path="res://assets/sprites/Acolyte_01_Idle.png" id="3_w35ai"]
 [ext_resource type="Texture2D" uid="uid://bju7hu8nja4ik" path="res://assets/sprites/Acolyte_01_Move.png" id="4_ctqju"]
-[ext_resource type="Script" path="res://src/scripts/UnitComponents/action.gd" id="5_8qei5"]
-[ext_resource type="Script" path="res://src/scripts/UnitComponents/faction.gd" id="6_7wfhc"]
-[ext_resource type="Script" path="res://src/scripts/UnitComponents/movement.gd" id="7_8p3xe"]
-[ext_resource type="Script" path="res://src/scripts/UnitComponents/stats.gd" id="8_yuouq"]
-[ext_resource type="Script" path="res://src/scripts/UnitComponents/turn.gd" id="9_71aok"]
-[ext_resource type="Script" path="res://src/scripts/UnitComponents/visual.gd" id="10_d0esw"]
+[ext_resource type="Script" uid="uid://c2c6pxxq6l6m0" path="res://src/scripts/UnitComponents/action.gd" id="5_8qei5"]
+[ext_resource type="Script" uid="uid://dgagdj8v3lky6" path="res://src/scripts/UnitComponents/faction.gd" id="6_7wfhc"]
+[ext_resource type="Script" uid="uid://bltofi2boqjgm" path="res://src/scripts/UnitComponents/movement.gd" id="7_8p3xe"]
+[ext_resource type="Script" uid="uid://b3clcupnsd080" path="res://src/scripts/UnitComponents/stats.gd" id="8_yuouq"]
+[ext_resource type="Script" uid="uid://b2yufqw3hepqe" path="res://src/scripts/UnitComponents/turn.gd" id="9_71aok"]
+[ext_resource type="Script" uid="uid://x7dcdkmanpcy" path="res://src/scripts/UnitComponents/visual.gd" id="10_d0esw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8vy2a"]
 atlas = ExtResource("3_w35ai")

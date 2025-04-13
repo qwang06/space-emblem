@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3 uid="uid://ctscj85vdue35"]
+
+[ext_resource type="Theme" uid="uid://bmdtydhlxweam" path="res://fe_theme.tres" id="1_a7k18"]
+[ext_resource type="Texture2D" uid="uid://chs6dgsk570kb" path="res://assets/sprites/RPG UI.png" id="2_tjdub"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3typu"]
+atlas = ExtResource("2_tjdub")
+region = Rect2(326, 1546, 20, 18)
+margin = Rect2(0, 0, 5, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_16xwy"]
+atlas = ExtResource("2_tjdub")
+region = Rect2(262, 1544, 20, 20)
+margin = Rect2(0, 0, 5, 0)
+
+[node name="ActionsMenu" type="PanelContainer"]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -133.0
+offset_bottom = 84.0
+grow_horizontal = 0
+theme = ExtResource("1_a7k18")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+
+[node name="Move" type="Button" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+theme_type_variation = &"ActionButton"
+text = "MOVE"
+icon = SubResource("AtlasTexture_3typu")
+alignment = 0
+
+[node name="Attack" type="Button" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+theme_type_variation = &"ActionButton"
+text = "ATTACK"
+icon = SubResource("AtlasTexture_16xwy")
+alignment = 0
+
+[node name="Node2D" type="Node2D" parent="."]

@@ -1,17 +1,18 @@
 [gd_scene load_steps=19 format=4 uid="uid://hl46q5x4i8ph"]
 
-[ext_resource type="Script" path="res://src/scripts/Camera/camera_2d.gd" id="1_kpg1m"]
+[ext_resource type="Script" uid="uid://hi2wkatpd700" path="res://src/scripts/Camera/camera_2d.gd" id="1_kpg1m"]
 [ext_resource type="TileSet" uid="uid://r3wtlsw1o4l3" path="res://assets/tilesets/rpg_ow.tres" id="3_11lqc"]
 [ext_resource type="Theme" uid="uid://bmdtydhlxweam" path="res://fe_theme.tres" id="4_avljk"]
 [ext_resource type="Texture2D" uid="uid://chs6dgsk570kb" path="res://assets/sprites/RPG UI.png" id="5_bmvgg"]
-[ext_resource type="Script" path="res://src/scripts/Dialog/dialog.gd" id="6_md2og"]
+[ext_resource type="Script" uid="uid://c2necvxcw4f55" path="res://src/scripts/Dialog/dialog.gd" id="6_md2og"]
 [ext_resource type="Texture2D" uid="uid://bp2hh0i1b7slj" path="res://assets/sprites/Acolyte_02_portrait.png" id="7_bgtua"]
-[ext_resource type="Script" path="res://src/scripts/GameLogic/game_board.gd" id="8_1hfn7"]
+[ext_resource type="PackedScene" uid="uid://dmyhh2ouy7mqu" path="res://src/scenes/UI/Deployment/deployment.tscn" id="7_lfvse"]
+[ext_resource type="Script" uid="uid://bp1gg4ayjde78" path="res://src/scripts/GameLogic/game_board.gd" id="8_1hfn7"]
 [ext_resource type="PackedScene" uid="uid://ddl2rnsk8q762" path="res://src/scenes/UnitPath/unit_path.tscn" id="10_oqbv5"]
 [ext_resource type="PackedScene" uid="uid://ba8cqauwlj5bi" path="res://src/scenes/Cursor/cursor.tscn" id="11_8xlrq"]
-[ext_resource type="Script" path="res://src/scripts/GameLogic/turn_manager.gd" id="11_xo4y7"]
-[ext_resource type="Script" path="res://src/scripts/Grid/tile_highlighter.gd" id="12_kupnt"]
-[ext_resource type="Script" path="res://src/scripts/SetupManager/deployment_controller.gd" id="13_6reaj"]
+[ext_resource type="Script" uid="uid://dl6gmsuky86gk" path="res://src/scripts/GameLogic/turn_manager.gd" id="11_xo4y7"]
+[ext_resource type="Script" uid="uid://b5y4buaehv3y7" path="res://src/scripts/Grid/tile_highlighter.gd" id="12_kupnt"]
+[ext_resource type="Script" uid="uid://crbc1w8wfsrf8" path="res://src/scripts/SetupManager/deployment_controller.gd" id="13_6reaj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1y6uf"]
 atlas = ExtResource("5_bmvgg")
@@ -35,10 +36,6 @@ region = Rect2(360, 1512, 16, 20)
 atlas = ExtResource("5_bmvgg")
 region = Rect2(76, 268, 10, 10)
 margin = Rect2(0, 0, 5, 5)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_j1xku"]
-atlas = ExtResource("5_bmvgg")
-region = Rect2(96, 208, 96, 4)
 
 [node name="Game" type="Node"]
 
@@ -202,33 +199,17 @@ layout_mode = 2
 size_flags_horizontal = 8
 texture = SubResource("AtlasTexture_vbdju")
 
-[node name="DeploymentUI" type="PanelContainer" parent="UI"]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -32.0
-offset_bottom = 32.0
-grow_horizontal = 0
-theme = ExtResource("4_avljk")
-
-[node name="DeployableUnits" type="GridContainer" parent="UI/DeploymentUI"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="UI/DeploymentUI/DeployableUnits"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "DEPLOYABLE UNITS"
-
-[node name="TextureRect" type="TextureRect" parent="UI/DeploymentUI/DeployableUnits"]
-layout_mode = 2
-texture = SubResource("AtlasTexture_j1xku")
+[node name="DeploymentUI" parent="UI" instance=ExtResource("7_lfvse")]
+offset_left = -191.0
+offset_bottom = 49.0
 
 [node name="SetupManager" type="Node" parent="."]
 
-[node name="DeploymentController" type="Node" parent="SetupManager" node_paths=PackedStringArray("deployment_ui", "unit_container")]
+[node name="DeploymentController" type="Node" parent="SetupManager" node_paths=PackedStringArray("deployment_ui", "unit_container", "cursor")]
 script = ExtResource("13_6reaj")
 deployment_ui = NodePath("../../UI/DeploymentUI")
 unit_container = NodePath("../../GameBoard/UnitContainer")
+cursor = NodePath("../../GameBoard/Cursor")
 
 [node name="TurnManager" type="Node" parent="."]
 script = ExtResource("11_xo4y7")

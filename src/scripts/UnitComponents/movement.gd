@@ -8,7 +8,7 @@ signal walk_finished
 var grid: Grid = null
 var current_path := []
 
-var tile := Vector2.ZERO:
+var tile := Vector2i.ZERO:
 	set = set_tile
 var _walking := false:
 	set = set_walking
@@ -86,7 +86,7 @@ func get_walkable_tiles() -> Array:
 	return grid.flood_fill(tile, move_range)
 
 # Move the selected unit to the target tile
-func move_to(new_tile: Vector2, path: Array) -> void:
+func move_to(new_tile: Vector2i, path: Array) -> void:
 	if grid.is_occuppied(new_tile):
 		return
 
