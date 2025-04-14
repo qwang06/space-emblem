@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("1_bhv0o")
-size = Vector2(20, 15)
-tile_size = Vector2(32, 32)
+size = Vector2i(20, 15)
+tile_size = Vector2i(32, 32)

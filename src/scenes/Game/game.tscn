@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://hl46q5x4i8ph"]
+[gd_scene load_steps=20 format=4 uid="uid://hl46q5x4i8ph"]
 
 [ext_resource type="Script" uid="uid://hi2wkatpd700" path="res://src/scripts/Camera/camera_2d.gd" id="1_kpg1m"]
 [ext_resource type="TileSet" uid="uid://r3wtlsw1o4l3" path="res://assets/tilesets/rpg_ow.tres" id="3_11lqc"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://chs6dgsk570kb" path="res://assets/sprites/RPG UI.png" id="5_bmvgg"]
 [ext_resource type="Script" uid="uid://c2necvxcw4f55" path="res://src/scripts/Dialog/dialog.gd" id="6_md2og"]
 [ext_resource type="Texture2D" uid="uid://bp2hh0i1b7slj" path="res://assets/sprites/Acolyte_02_portrait.png" id="7_bgtua"]
+[ext_resource type="PackedScene" uid="uid://qrlvog3utyot" path="res://src/scenes/UI/TooltipPanel/tooltip_panel.tscn" id="7_gwdoo"]
 [ext_resource type="PackedScene" uid="uid://dmyhh2ouy7mqu" path="res://src/scenes/UI/Deployment/deployment.tscn" id="7_lfvse"]
 [ext_resource type="Script" uid="uid://bp1gg4ayjde78" path="res://src/scripts/GameLogic/game_board.gd" id="8_1hfn7"]
 [ext_resource type="PackedScene" uid="uid://ddl2rnsk8q762" path="res://src/scenes/UnitPath/unit_path.tscn" id="10_oqbv5"]
@@ -199,15 +200,19 @@ layout_mode = 2
 size_flags_horizontal = 8
 texture = SubResource("AtlasTexture_vbdju")
 
+[node name="TooltipPanel" parent="UI" instance=ExtResource("7_gwdoo")]
+visible = false
+
 [node name="DeploymentUI" parent="UI" instance=ExtResource("7_lfvse")]
 offset_left = -191.0
 offset_bottom = 49.0
 
 [node name="SetupManager" type="Node" parent="."]
 
-[node name="DeploymentController" type="Node" parent="SetupManager" node_paths=PackedStringArray("deployment_ui", "unit_container", "cursor")]
+[node name="DeploymentController" type="Node" parent="SetupManager" node_paths=PackedStringArray("deployment_ui", "tooltip_panel", "unit_container", "cursor")]
 script = ExtResource("13_6reaj")
 deployment_ui = NodePath("../../UI/DeploymentUI")
+tooltip_panel = NodePath("../../UI/TooltipPanel")
 unit_container = NodePath("../../GameBoard/UnitContainer")
 cursor = NodePath("../../GameBoard/Cursor")
 

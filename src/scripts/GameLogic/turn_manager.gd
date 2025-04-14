@@ -58,7 +58,7 @@ func _on_setup_phase():
 	var deployment_controller = get_node("../SetupManager/DeploymentController")
 
 	deployment_controller.begin_setup()
-	deployment_controller.connect("placement_complete", Callable(self, "_on_setup_finished"))
+	deployment_controller.connect("setup_finished", Callable(self, "_on_setup_finished"))
 
 
 func _on_setup_finished():

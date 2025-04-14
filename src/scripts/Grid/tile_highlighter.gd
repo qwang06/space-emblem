@@ -7,8 +7,16 @@ var tile_positions: Array[Vector2i] = []
 func set_highlighted_tiles(tiles: Array[Vector2i]) -> void:
 	tile_positions = tiles
 
-func clear_highlights():
+
+func clear_highlighted_tiles(tiles: Array[Vector2i]) -> void:
+	for tile in tiles:
+		if tile in tile_positions:
+			tile_positions.erase(tile)
+
+
+func clear():
 	tile_positions.clear()
+
 
 func _draw():
 	for tile in tile_positions:

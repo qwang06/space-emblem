@@ -10,6 +10,6 @@ Our coding standards include:
 When providing code examples or suggestions:
 - Use Godot's built-in classes and methods, such as `Node`, `Resource`, and `Signal`.
 - Demonstrate best practices for game development within the Godot Engine.
-- Ensure compatibility with Godot 4.3 features and APIs.
+- Ensure compatibility with Godot 4.4 features and APIs.
 
 Our team emphasizes clean, modular, and well-documented code. Please include comments explaining complex logic and decisions in your code suggestions.
