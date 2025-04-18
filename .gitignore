@@ -13,4 +13,9 @@ export_credentials.cfg
 .mono/
 data_*/
 mono_crash.*.json
+
+# Temp files
 *.tmp
+
+# vscode
+.vscode/
