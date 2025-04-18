@@ -18,7 +18,11 @@ func show_tooltip(text: String, duration: float = 3) -> void:
 	# Set the text of the label
 	label.text = text
 
-	timer.start(duration)
+	# Duration is 0 means it will not hide automatically
+	if (duration == 0):
+		timer.stop()
+	else:
+		timer.start(duration)
 
 	# Show the tooltip
 	self.show()
@@ -27,14 +31,15 @@ func show_tooltip(text: String, duration: float = 3) -> void:
 
 	# Use tween to fade in the tooltip
 	var tween = get_tree().create_tween()
-	tween.tween_property(self, "modulate", Color.WHITE, 0.5)
+	tween.tween_property(self, "modulate", Color.WHITE, 0.1)
 
 
 func hide_tooltip() -> void:
+	timer.stop()
 	# Only fade out if the tooltip is fully visible
 	if self.modulate.a > 0.0:
 		# Use tween to fade out the tooltip
 		var tween = get_tree().create_tween()
-		tween.tween_property(self, "modulate", Color.TRANSPARENT, 0.5)
+		tween.tween_property(self, "modulate", Color.TRANSPARENT, 0.1)
 		tween.tween_callback(self.hide)
 

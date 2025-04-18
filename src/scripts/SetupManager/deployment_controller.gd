@@ -62,12 +62,11 @@ func begin_setup() -> void:
 
 	# Create a button for deploying a unit
 	for unit_scene in unit_scenes:
-		_create_unit_button(unit_scene)
+		_create_unit_button(unit_scene.instantiate())
 
-func _create_unit_button(unit_scene: PackedScene) -> void:
+func _create_unit_button(unit: Unit) -> void:
 	# Create and configure a button for the given unit
 	var button: Button = Button.new()
-	var unit: Node2D = unit_scene.instantiate()
 	button.text = unit.name
 	button.flat = true
 	button.pressed.connect(_on_unit_button_pressed.bind(unit, button))
@@ -85,9 +84,34 @@ func _on_unit_button_pressed(unit: Node2D, button: Button) -> void:
 	unit_container.add_child(_current_unit)
 	_current_unit.initialize(grid)
 	_current_unit.modulate = Color(1, 1, 1, 0.5)  # Faded out for preview
+	tooltip_panel.show_tooltip("Position " + unit.name, 0)
 
 	# Connect to cursor "moved" signal
 	cursor.moved.connect(handle_show_unit.bind(_current_unit))
+	# Connect to cursor "cancel_pressed"
+	cursor.cancel_pressed.connect(handle_return_unit.bind(_current_unit))
+
+
+func handle_return_unit(tile:Vector2i, unit: Node2D) -> void:
+	# Remove the unit from the grid
+	grid.remove_unit(unit.tile)
+	unit.queue_free()
+
+	# Reset the current unit
+	_current_unit = null
+
+	# Create the button again
+	_create_unit_button(unit)
+
+	# Hide the tooltip panel
+	tooltip_panel.hide_tooltip()
+
+	# Disconnect cursor signal
+	cursor.moved.disconnect(handle_show_unit)
+	cursor.cancel_pressed.disconnect(handle_return_unit)
+
+	# Show UI for next unit
+	deployment_ui.visible = true
 
 
 # Show unit on the cursor
@@ -121,7 +145,7 @@ func _reselect_unit(unit: Node2D, tile: Vector2i) -> void:
 	emit_signal("unit_deselected", unit)
 
 	# Show a hint in the UI
-	tooltip_panel.show_tooltip("Repositioning " + unit.name)
+	tooltip_panel.show_tooltip("Position " + unit.name)
 
 
 #-----------------
@@ -142,6 +166,9 @@ func handle_tile_click(tile: Vector2i) -> void:
 
 	# Place the unit on the grid
 	_place_unit(tile)
+
+	# Hide the tooltip panel
+	tooltip_panel.hide_tooltip()
 
 	# Disconnect cursor signal
 	cursor.moved.disconnect(handle_show_unit)
@@ -181,6 +208,7 @@ func _place_unit(tile: Vector2i) -> void:
 	_current_unit = null
 	if _current_button:
 		_current_button.queue_free()
+		_current_button = null
 
 
 #-----------------

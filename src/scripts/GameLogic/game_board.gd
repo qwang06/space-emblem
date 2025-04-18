@@ -174,7 +174,7 @@ func _on_cursor_confirm_pressed(tile: Vector2i) -> void:
 
 
 # Handler for when the cursor cancels an action (e.g., player presses Escape)
-func _on_cursor_cancel_pressed() -> void:
+func _on_cursor_cancel_pressed(_tile: Vector2i) -> void:
 	if actions_menu.is_visible():
 		actions_menu.hide()
 	if _active_unit:

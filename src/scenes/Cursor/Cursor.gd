@@ -4,7 +4,7 @@ extends Node2D
 
 signal confirm_pressed(tile)
 signal moved(prev_tile, new_tile)
-signal cancel_pressed
+signal cancel_pressed(tile)
 
 @export var grid := preload("res://Grid.tres")
 @export var ui_cooldown := 0.1 # prevent spam
@@ -38,7 +38,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	 	or event.is_action_pressed("cancel")
 	):
 		# right click or cancel action (e.g. escape key)
-		cancel_pressed.emit()
+		cancel_pressed.emit(tile)
 		print("cancel pressed")
 		# stop propagation
 		get_viewport().set_input_as_handled()
