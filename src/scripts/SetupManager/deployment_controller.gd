@@ -60,9 +60,15 @@ func begin_setup() -> void:
 	# Highlight valid deployment tiles
 	grid_overlay.set_highlighted_tiles(setup_tiles)
 
+	# Connect to cursor "cancel_pressed"
+	cursor.cancel_pressed.connect(handle_return_unit.bind())
+
 	# Create a button for deploying a unit
 	for unit_scene in unit_scenes:
-		_create_unit_button(unit_scene.instantiate())
+		var unit: Unit = unit_scene.instantiate()
+		unit_container.add_child(unit)
+		unit.initialize(grid)
+		_create_unit_button(unit)
 
 
 func _create_unit_button(unit: Unit) -> void:
@@ -83,29 +89,27 @@ func _on_unit_button_pressed(unit: Unit, button: Button) -> void:
 	_current_unit = unit
 
 	# Check if unit is already a child of the unit container
-	unit_container.add_child(_current_unit)
-	_current_unit.initialize(grid)
 	_current_unit.modulate = Color(1, 1, 1, 0.5)  # Faded out for preview
 	tooltip_panel.show_tooltip("Position " + unit.name, 0)
 
 	# Connect to cursor "moved" signal
 	cursor.moved.connect(handle_show_unit.bind(_current_unit))
-	# Connect to cursor "cancel_pressed"
-	cursor.cancel_pressed.connect(handle_return_unit.bind())
 
 
 func handle_return_unit(tile: Vector2i) -> void:
+	print("Cancel pressed", _current_unit)
 	if _current_unit:
 		# Unit is on cursor and has not been placed
 		_current_unit = null
 		cursor.moved.disconnect(handle_show_unit)
 	else:
 		var unit = grid.get_unit_at(tile)
+		if unit == null:
+			return
 		_create_unit_button(unit)
 		grid.remove_unit(unit.tile)
 		unit.queue_free()
 
-	cursor.cancel_pressed.disconnect(handle_return_unit)
 	tooltip_panel.hide_tooltip()
 	deployment_ui.visible = true
 

@@ -19,7 +19,7 @@ var units = {}
 
 # returns the unit at the given tile
 func get_unit_at(tile: Vector2i) -> Unit:
-	if not units.has(tile):
+	if not is_instance_valid(units.get(tile)):
 		return null
 	return units[tile]
 
@@ -31,7 +31,7 @@ func place_unit(unit: Unit, tile: Vector2i) -> void:
 
 # remove a unit from the board
 func remove_unit(tile: Vector2i) -> void:
-	if units.has(tile):
+	if is_instance_valid(units.get(tile)):
 		units.erase(tile)
 
 
