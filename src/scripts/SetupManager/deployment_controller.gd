@@ -65,9 +65,10 @@ func begin_setup() -> void:
 
 	# Create a button for deploying a unit
 	for unit_scene in unit_scenes:
-		var unit: Unit = unit_scene.instantiate()
+		var unit = unit_scene.instantiate()
 		unit_container.add_child(unit)
 		unit.initialize(grid)
+		print("Unit initialized: ", unit.tile, unit.visible)
 		_create_unit_button(unit)
 
 
@@ -76,13 +77,15 @@ func _create_unit_button(unit: Unit) -> void:
 	var button: Button = Button.new()
 	button.text = unit.name
 	button.flat = true
+	print("Unit button created: " + unit.name)
 	button.pressed.connect(_on_unit_button_pressed.bind(unit, button))
 	deployable_units_ui.add_child(button)
 
 #-----------------
 # Unit Selection
 #-----------------
-func _on_unit_button_pressed(unit: Unit, button: Button) -> void:
+func _on_unit_button_pressed(unit, button: Button) -> void:
+	print("Unit button pressed: " + unit.name)
 	deployment_ui.visible = false
 	# Handle unit selection from the UI
 	_current_button = button
@@ -97,7 +100,6 @@ func _on_unit_button_pressed(unit: Unit, button: Button) -> void:
 
 
 func handle_return_unit(tile: Vector2i) -> void:
-	print("Cancel pressed", _current_unit)
 	if _current_unit:
 		# Unit is on cursor and has not been placed
 		_current_unit = null
@@ -108,7 +110,6 @@ func handle_return_unit(tile: Vector2i) -> void:
 			return
 		_create_unit_button(unit)
 		grid.remove_unit(unit.tile)
-		unit.queue_free()
 
 	tooltip_panel.hide_tooltip()
 	deployment_ui.visible = true
