@@ -1,8 +1,8 @@
 extends Node
 
 # Signals
-signal unit_placed(unit: Node2D)  # Emitted when a unit is placed
-signal unit_deselected(unit: Node2D)  # Emitted when a unit is deselected for repositioning
+signal unit_placed(unit: Unit)  # Emitted when a unit is placed
+signal unit_deselected(unit: Unit)  # Emitted when a unit is deselected for repositioning
 signal placement_complete()  # Emitted when all units are deployed
 signal setup_finished()  # Emitted when setup is canceled
 
@@ -64,6 +64,7 @@ func begin_setup() -> void:
 	for unit_scene in unit_scenes:
 		_create_unit_button(unit_scene.instantiate())
 
+
 func _create_unit_button(unit: Unit) -> void:
 	# Create and configure a button for the given unit
 	var button: Button = Button.new()
@@ -75,12 +76,13 @@ func _create_unit_button(unit: Unit) -> void:
 #-----------------
 # Unit Selection
 #-----------------
-func _on_unit_button_pressed(unit: Node2D, button: Button) -> void:
+func _on_unit_button_pressed(unit: Unit, button: Button) -> void:
 	deployment_ui.visible = false
 	# Handle unit selection from the UI
 	_current_button = button
 	_current_unit = unit
 
+	# Check if unit is already a child of the unit container
 	unit_container.add_child(_current_unit)
 	_current_unit.initialize(grid)
 	_current_unit.modulate = Color(1, 1, 1, 0.5)  # Faded out for preview
@@ -89,28 +91,22 @@ func _on_unit_button_pressed(unit: Node2D, button: Button) -> void:
 	# Connect to cursor "moved" signal
 	cursor.moved.connect(handle_show_unit.bind(_current_unit))
 	# Connect to cursor "cancel_pressed"
-	cursor.cancel_pressed.connect(handle_return_unit.bind(_current_unit))
+	cursor.cancel_pressed.connect(handle_return_unit.bind())
 
 
-func handle_return_unit(tile:Vector2i, unit: Node2D) -> void:
-	# Remove the unit from the grid
-	grid.remove_unit(unit.tile)
-	unit.queue_free()
+func handle_return_unit(tile: Vector2i) -> void:
+	if _current_unit:
+		# Unit is on cursor and has not been placed
+		_current_unit = null
+		cursor.moved.disconnect(handle_show_unit)
+	else:
+		var unit = grid.get_unit_at(tile)
+		_create_unit_button(unit)
+		grid.remove_unit(unit.tile)
+		unit.queue_free()
 
-	# Reset the current unit
-	_current_unit = null
-
-	# Create the button again
-	_create_unit_button(unit)
-
-	# Hide the tooltip panel
-	tooltip_panel.hide_tooltip()
-
-	# Disconnect cursor signal
-	cursor.moved.disconnect(handle_show_unit)
 	cursor.cancel_pressed.disconnect(handle_return_unit)
-
-	# Show UI for next unit
+	tooltip_panel.hide_tooltip()
 	deployment_ui.visible = true
 
 
@@ -127,12 +123,15 @@ func handle_show_unit(_prev_tile: Vector2i, new_tile: Vector2i, unit: Node2D) ->
 
 
 func _reselect_unit(unit: Node2D, tile: Vector2i) -> void:
+	if _current_unit:
+		return
+	
 	# Remove the unit from the grid
 	grid.remove_unit(tile)
 	placed_units.erase(unit)
 
 	# Set the unit to preview mode
-	unit.modulate = Color(1, 1, 1, 0.5)  # Semi-transparent
+	unit.modulate = Color(1, 1, 1, 0.5) # Semi-transparent
 	_current_unit = unit
 
 	# Highlight valid deployment tiles
