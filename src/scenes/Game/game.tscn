@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://ddl2rnsk8q762" path="res://src/scenes/UnitPath/unit_path.tscn" id="10_oqbv5"]
 [ext_resource type="PackedScene" uid="uid://ba8cqauwlj5bi" path="res://src/scenes/Cursor/cursor.tscn" id="11_8xlrq"]
 [ext_resource type="Script" uid="uid://dl6gmsuky86gk" path="res://src/scripts/GameLogic/turn_manager.gd" id="11_xo4y7"]
-[ext_resource type="Script" uid="uid://b5y4buaehv3y7" path="res://src/scripts/Grid/tile_highlighter.gd" id="12_kupnt"]
+[ext_resource type="Script" uid="uid://b5y4buaehv3y7" path="res://src/scripts/Grid/grid_overlay.gd" id="12_kupnt"]
 [ext_resource type="Script" uid="uid://crbc1w8wfsrf8" path="res://src/scripts/SetupManager/deployment_controller.gd" id="13_6reaj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1y6uf"]
@@ -206,6 +206,8 @@ visible = false
 [node name="DeploymentUI" parent="UI" instance=ExtResource("7_lfvse")]
 offset_left = -191.0
 offset_bottom = 49.0
+
+[node name="CommandCenter" type="Node" parent="."]
 
 [node name="SetupManager" type="Node" parent="."]
 

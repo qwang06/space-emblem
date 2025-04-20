@@ -8,10 +8,20 @@ func set_highlighted_tiles(tiles: Array[Vector2i]) -> void:
 	tile_positions = tiles
 
 
+func add_highlighted_tiles(tiles: Array[Vector2i]) -> void:
+	for tile in tiles:
+		if not tile in tile_positions:
+			tile_positions.append(tile)
+	
+	queue_redraw()
+
+
 func clear_highlighted_tiles(tiles: Array[Vector2i]) -> void:
 	for tile in tiles:
 		if tile in tile_positions:
 			tile_positions.erase(tile)
+	
+	queue_redraw()
 
 
 func clear():
