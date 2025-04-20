@@ -2,6 +2,7 @@ extends Node
 
 # Signals
 signal unit_placed(unit: Unit)  # Emitted when a unit is placed
+signal unit_returned(unit: Unit)  # Emitted when a unit is returned to the pool
 signal unit_deselected(unit: Unit)  # Emitted when a unit is deselected for repositioning
 signal placement_complete()  # Emitted when all units are deployed
 signal setup_finished()  # Emitted when setup is canceled
@@ -68,7 +69,6 @@ func begin_setup() -> void:
 		var unit = unit_scene.instantiate()
 		unit_container.add_child(unit)
 		unit.initialize(grid)
-		print("Unit initialized: ", unit.tile, unit.visible)
 		_create_unit_button(unit)
 
 
@@ -77,7 +77,6 @@ func _create_unit_button(unit: Unit) -> void:
 	var button: Button = Button.new()
 	button.text = unit.name
 	button.flat = true
-	print("Unit button created: " + unit.name)
 	button.pressed.connect(_on_unit_button_pressed.bind(unit, button))
 	deployable_units_ui.add_child(button)
 
@@ -85,7 +84,6 @@ func _create_unit_button(unit: Unit) -> void:
 # Unit Selection
 #-----------------
 func _on_unit_button_pressed(unit, button: Button) -> void:
-	print("Unit button pressed: " + unit.name)
 	deployment_ui.visible = false
 	# Handle unit selection from the UI
 	_current_button = button
@@ -108,8 +106,7 @@ func handle_return_unit(tile: Vector2i) -> void:
 		var unit = grid.get_unit_at(tile)
 		if unit == null:
 			return
-		_create_unit_button(unit)
-		grid.remove_unit(unit.tile)
+		_return_unit(tile, unit)
 
 	tooltip_panel.hide_tooltip()
 	deployment_ui.visible = true
@@ -120,7 +117,7 @@ func handle_show_unit(_prev_tile: Vector2i, new_tile: Vector2i, unit: Node2D) ->
 	# Check if the new tile is valid
 	if setup_tiles.has(new_tile):
 		# Update the unit's position to follow the cursor
-		unit.position = grid.calculate_map_position(new_tile)
+		unit.set_tile_at(new_tile)
 		unit.modulate = Color(1, 1, 1, 0.5)  # Semi-transparent to indicate preview
 	else:
 		# Hide the unit if the cursor is outside setup tiles
@@ -201,7 +198,7 @@ func _can_place_unit(tile: Vector2i) -> bool:
 func _place_unit(tile: Vector2i) -> void:
 	# Place the selected unit on the grid
 	_current_unit.modulate = Color(1, 1, 1, 1)
-	_current_unit.position = grid.calculate_map_position(tile)
+	_current_unit.set_tile_at(tile)
 
 	# Update the grid with the new unit
 	grid.place_unit(_current_unit, tile)
@@ -213,6 +210,17 @@ func _place_unit(tile: Vector2i) -> void:
 	if _current_button:
 		_current_button.queue_free()
 		_current_button = null
+
+
+func _return_unit(tile: Vector2i, unit: Node2D) -> void:
+	_create_unit_button(unit)
+	grid.remove_unit(tile)
+	unit.set_position_zero()
+	unit.modulate = Color(1, 1, 1, 0)  # Fully transparent
+	# Remove from placed_units
+	if placed_units.has(unit):
+		placed_units.erase(unit)
+		emit_signal("unit_returned", unit)
 
 
 #-----------------

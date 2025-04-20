@@ -57,3 +57,21 @@ func set_selected(value: bool) -> void:
 		visual.highlight()
 	else:
 		visual.clear_highlight()
+
+
+# Set the unit's position
+func set_position_at(p: Vector2) -> void:
+	self.position = p
+	self.tile = movement.grid.calculate_grid_coordinates(position)
+
+
+# Set the unit's tile, preferred way of setting where the unit is
+func set_tile_at(t: Vector2i) -> void:
+	self.position = movement.grid.calculate_map_position(t)
+	self.tile = t
+
+
+# Utility func to set unit's position to zero
+func set_position_zero() -> void:
+	self.position = Vector2.ZERO
+	self.tile = Vector2i.ZERO

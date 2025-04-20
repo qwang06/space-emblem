@@ -33,7 +33,7 @@ func _process(delta: float) -> void:
 	if _path_follow.progress_ratio >= 1.0:
 		_walking = false
 		_path_follow.progress = 0.0
-		_parent.position = grid.calculate_map_position(tile)
+		_parent.set_tile_at(tile)
 		_parent.curve.clear_points()
 		emit_signal("walk_finished")
 

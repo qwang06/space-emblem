@@ -31,6 +31,7 @@ func place_unit(unit: Unit, tile: Vector2i) -> void:
 
 # remove a unit from the board
 func remove_unit(tile: Vector2i) -> void:
+	print("removing unit at tile: ", tile, units.get(tile), is_instance_valid(units.get(tile)))
 	if is_instance_valid(units.get(tile)):
 		units.erase(tile)
 
