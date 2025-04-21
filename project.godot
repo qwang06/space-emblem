@@ -15,6 +15,10 @@ run/main_scene="res://src/scenes/Game/game.tscn"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+CommandCenter="*res://src/scripts/Command/command_center.gd"
+
 [debug]
 
 gdscript/warnings/unused_signal=0
