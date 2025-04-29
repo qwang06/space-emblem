@@ -12,4 +12,4 @@ func reset():
 func end_turn():
     has_moved = true
     has_acted = true
-    emit_signal("turn_complete", get_parent())
+    turn_complete.emit(get_parent())

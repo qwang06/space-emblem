@@ -27,7 +27,7 @@ var turns: int = 0
 func start_phase(phase: Phase) -> void:
 	current_phase = phase
 	print("Starting phase:", phase_to_string(phase))
-	emit_signal("phase_started", phase)
+	phase_started.emit(phase)
 
 	match phase:
 		Phase.SETUP:
@@ -43,7 +43,7 @@ func start_phase(phase: Phase) -> void:
 
 
 func end_phase() -> void:
-	emit_signal("phase_ended", current_phase)
+	phase_ended.emit(current_phase)
 
 	if auto_advance:
 		advance()

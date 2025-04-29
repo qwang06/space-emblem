@@ -35,7 +35,7 @@ func _process(delta: float) -> void:
 		_path_follow.progress = 0.0
 		_parent.set_tile_at(tile)
 		_parent.curve.clear_points()
-		emit_signal("walk_finished")
+		walk_finished.emit()
 
 # clamp unit's position to the grid
 func set_tile(value: Vector2) -> void:
@@ -79,7 +79,7 @@ func walk_along(path: Array) -> void:
 			_walking = true
 		else:
 			# If we only have one point, we're already there
-			emit_signal("walk_finished")
+			walk_finished.emit()
 
 # Calculate all tiles the unit can walk to based on its movement range
 func get_walkable_tiles() -> Array:

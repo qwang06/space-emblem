@@ -207,8 +207,6 @@ visible = false
 offset_left = -191.0
 offset_bottom = 49.0
 
-[node name="CommandCenter" type="Node" parent="."]
-
 [node name="SetupManager" type="Node" parent="."]
 
 [node name="DeploymentController" type="Node" parent="SetupManager" node_paths=PackedStringArray("deployment_ui", "tooltip_panel", "unit_container", "cursor")]

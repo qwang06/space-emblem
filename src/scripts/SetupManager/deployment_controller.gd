@@ -3,15 +3,16 @@ extends Node
 #-----------------
 # Signals
 #-----------------
-signal unit_placed(unit: Unit)  # Emitted when a unit is placed
+signal unit_deployed(unit: Unit)  # Emitted when a unit is placed
 signal unit_returned(unit: Unit)  # Emitted when a unit is returned to the pool
+signal unit_reselected(unit: Unit)  # Emitted when a unit is reselected
 signal placement_complete()  # Emitted when all units are deployed
 signal setup_finished()  # Emitted when setup is canceled
 
 #-----------------
 # Constants
 #-----------------
-const PLACE_UNIT_MESSAGE = "Left-click to place [%s]"
+const DEPLOY_UNIT_MESSAGE = "Left-click to place [%s]"
 const RETURN_UNIT_MESSAGE = "Right-click to return [%s]"
 
 #-----------------
@@ -39,7 +40,7 @@ var unit_scenes: Array[PackedScene] = [
 #-----------------
 var grid: Grid = null  # Reference to the game grid
 var setup_tiles: Array[Vector2i] = []  # Valid deployment positions
-var placed_units: Array[Node2D] = []  # Deployed units
+var deployed_units: Array[Node2D] = []  # Deployed units
 var deployment: Dictionary = {}  # Deployment zone data
 var deployable_units_ui: Control = null  # UI node for deployable units
 var grid_overlay: Node = null  # Visual overlay for deployment zones
@@ -71,7 +72,7 @@ func begin_setup() -> void:
 		return
 	
 	deployable_units_ui = deployment_ui.get_node('DeployableUnits')
-	placed_units.clear()
+	deployed_units.clear()
 	setup_tiles.clear()
 
 	# Convert deployment zone coordinates to Vector2i
@@ -84,6 +85,9 @@ func begin_setup() -> void:
 	# Connect to cursor "cancel_pressed"
 	cursor.cancel_pressed.connect(handle_return_unit.bind())
 	cursor.moved.connect(handle_cursor_moved.bind())
+	unit_returned.connect(_on_unit_returned.bind())
+	unit_deployed.connect(_on_unit_deployed.bind())
+	unit_reselected.connect(_on_unit_reselected.bind())
 
 	# Create a button for deploying a unit
 	for unit_scene in unit_scenes:
@@ -118,7 +122,7 @@ func _on_unit_button_pressed(unit, button: Button) -> void:
 
 	# Check if unit is already a child of the unit container
 	_current_unit.modulate = Color(1, 1, 1, 0.5)  # Faded out for preview
-	tooltip_panel.show_tooltip(PLACE_UNIT_MESSAGE % unit.name, 0)
+	tooltip_panel.show_tooltip(DEPLOY_UNIT_MESSAGE % unit.name, 0)
 
 # Event handler for when the return action is triggered.
 # 	:param tile: The tile where the return action is triggered.
@@ -132,10 +136,43 @@ func handle_return_unit(tile: Vector2i) -> void:
 		var unit = grid.get_unit_at(tile)
 		if unit == null:
 			return
-		_return_unit(tile, unit)
+
+		var command = ReturnUnitCommand.new(unit, tile, self)
+		CommandCenter.run(command)
 
 	tooltip_panel.hide_tooltip()
 	deployment_ui.visible = true
+
+
+func _on_unit_returned(unit: Unit) -> void:
+	_create_unit_button(unit)
+
+
+func _on_unit_deployed(unit: Unit) -> void:
+	# Reset current unit and button
+	_current_unit = null
+
+	# Find the button associated with the deployed unit and remove it
+	for child in deployable_units_ui.get_children():
+		if child is Button and child.text == unit.name:
+			child.queue_free()
+			break
+
+	# Check if deployment is complete
+	if deployed_units.size() == max_units:
+		# Emit signal for setup completion
+		placement_complete.emit()
+		deployment_ui.visible = false
+		grid_overlay.clear()
+		finish_setup()
+	else:
+		# Show UI for next unit
+		deployment_ui.visible = true
+
+
+func _on_unit_reselected(unit: Unit) -> void:
+	# Show a hint in the UI
+	tooltip_panel.show_tooltip(DEPLOY_UNIT_MESSAGE % unit.name)
 
 
 # Show the unit on the cursor for preview.
@@ -162,7 +199,7 @@ func handle_cursor_moved(_prev_tile: Vector2i, new_tile: Vector2i) -> void:
 	else:
 		# Hover feedback for placed units
 		var unit = grid.get_unit_at(new_tile)
-		if unit and placed_units.has(unit):
+		if unit and deployed_units.has(unit):
 			# Show tooltip to show you can return the unit
 			tooltip_panel.show_tooltip(RETURN_UNIT_MESSAGE % unit.name, 0)
 		else:
@@ -182,26 +219,16 @@ func handle_tile_click(tile: Vector2i) -> void:
 
 	if unit_on_tile != null and not _current_unit:
 		# Reselect the unit for repositioning
-		_reselect_unit(tile, unit_on_tile)
+		CommandCenter.run(ReselectUnitCommand.new(unit_on_tile, tile, self))
 		return
 	
 	# Validate placement conditions
 	if not _can_place_unit(tile):
 		return
 
-	# Place the unit on the grid
-	_place_unit(tile)
-
-	# Check if deployment is complete
-	if placed_units.size() == max_units:
-		# Emit signal for setup completion
-		emit_signal("placement_complete")
-		deployment_ui.visible = false
-		grid_overlay.clear()
-		finish_setup()
-	else:
-		# Show UI for next unit
-		deployment_ui.visible = true
+	# Cursor should be on top of the unit so it can be returned
+	tooltip_panel.show_tooltip(RETURN_UNIT_MESSAGE % _current_unit.name, 0)
+	CommandCenter.run(DeployUnitCommand.new(_current_unit, tile, self))
 
 
 # Check if a unit can be placed on the given tile.
@@ -213,73 +240,65 @@ func _can_place_unit(tile: Vector2i) -> bool:
 		setup_tiles.has(tile) and
 		_current_unit != null and
 		unit_container != null and
-		placed_units.size() < max_units and
+		deployed_units.size() < max_units and
 		grid.get_unit_at(tile) == null
 	)
 
 
-# Place the selected unit on the grid.
+# Deploy the selected unit on the grid.
 # :param tile: The tile where the unit will be placed.
-func _place_unit(tile: Vector2i) -> void:
+func deploy_unit(tile: Vector2i, unit: Unit) -> void:
 	# Place the selected unit on the grid
-	_current_unit.modulate = Color(1, 1, 1, 1)
-	_current_unit.set_tile_at(tile)
+	unit.modulate = Color(1, 1, 1, 1)
+	unit.set_tile_at(tile)
 
 	# Update the grid with the new unit
-	grid.place_unit(_current_unit, tile)
-	placed_units.append(_current_unit)
-	tooltip_panel.show_tooltip(RETURN_UNIT_MESSAGE % _current_unit.name, 0)
+	grid.place_unit(unit, tile)
 
 	# Remove highlight from the grid
 	grid_overlay.clear_highlighted_tiles([tile] as Array[Vector2i])
+	deployed_units.append(unit)
 
 	# Update UI and state
-	emit_signal("unit_placed", _current_unit)
-	_current_unit = null
-	if _current_button:
-		_current_button.queue_free()
-		_current_button = null
+	unit_deployed.emit(unit)
 
 
 # Return a unit to the pool.
 # 	:param tile: The tile where the unit is located.
 # 	:param unit: The unit to be returned.
-func _return_unit(tile: Vector2i, unit: Node2D) -> void:
-	_create_unit_button(unit)
-	grid.remove_unit(tile)
-	unit.set_position_zero()
+func return_unit(tile: Vector2i, unit: Node2D) -> void:
 	unit.modulate = Color(1, 1, 1, 0)  # Fully transparent
+	unit.set_position_zero()
+	_remove_deployed_unit(tile, unit)
 
-	# Add highlight back to the grid
-	grid_overlay.add_highlighted_tiles([tile] as Array[Vector2i])
-
-	# Remove from placed_units
-	if placed_units.has(unit):
-		placed_units.erase(unit)
-		emit_signal("unit_returned", unit)
+	unit_returned.emit(unit)
 
 
 # Reselect a unit for repositioning
-func _reselect_unit(tile: Vector2i, unit: Node2D) -> void:
+func reselect_unit(tile: Vector2i, unit: Node2D) -> void:
 	if _current_unit:
+		# Cursor already has a unit
 		return
-	
+
+	_current_unit = unit
+	unit.modulate = Color(1, 1, 1, 0.5) # Semi-transparent
+	_remove_deployed_unit(tile, unit)
+
+	# Highlight valid deployment tiles
+	# grid_overlay.set_highlighted_tiles(setup_tiles)
+	unit_reselected.emit(unit)
+
+
+func _remove_deployed_unit(tile: Vector2i, unit: Unit) -> void:
 	# Remove the unit from the grid
 	grid.remove_unit(tile)
-	placed_units.erase(unit)
 
 	# Add highlight back to the grid
 	grid_overlay.add_highlighted_tiles([tile] as Array[Vector2i])
 
-	# Set the unit to preview mode
-	unit.modulate = Color(1, 1, 1, 0.5) # Semi-transparent
-	_current_unit = unit
-
-	# Highlight valid deployment tiles
-	grid_overlay.set_highlighted_tiles(setup_tiles)
-
-	# Show a hint in the UI
-	tooltip_panel.show_tooltip(PLACE_UNIT_MESSAGE % unit.name)
+	# Remove from deployed_units
+	if deployed_units.has(unit):
+		deployed_units.erase(unit)
 
 
 #-----------------
@@ -289,14 +308,14 @@ func _reselect_unit(tile: Vector2i, unit: Node2D) -> void:
 #-----------------
 func finish_setup() -> void:
 	# Reset deployment state
-	placed_units.clear()
+	deployed_units.clear()
 	setup_tiles.clear()
 	grid_overlay.clear()
 
 	deployment_ui.visible = false
 
 	# Emit signal to indicate setup completion
-	emit_signal("setup_finished")
+	setup_finished.emit()
 
 
 func cancel_setup() -> void:
